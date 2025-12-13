@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breadfast Pay - 12 Step Campaign</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --primary: #b2288e;
+            /* Breadfast Purple */
+            --secondary: #edffef;
+            /* Mint Green */
+            --accent: #FDCB6E;
+            /* Warm Yellow */
+            --text-dark: #2d3436;
+            --text-light: #ffffff;
+            --glass-white: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --slide-shadow: 0 20px 50px rgba(178, 40, 142, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #ffffff;
+            color: var(--text-dark);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* 3D Canvas Background */
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background: linear-gradient(180deg, #ffffff 0%, #f3f0ff 100%);
+        }
+
+        #canvas-container canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            pointer-events: none;
+        }
+
+        /* Memphis Decorative Elements */
+        .memphis-shape {
+            position: absolute;
+            z-index: 0;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .shape-squiggle {
+            width: 100px;
+            height: 20px;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='10' viewBox='0 0 40 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 5 Q 10 0 20 5 T 40 5' stroke='%23b2288e' fill='none' stroke-width='4'/%3E%3C/svg%3E");
+            background-size: 40px 10px;
+        }
+
+        .shape-dots {
+            width: 150px;
+            height: 150px;
+            background-image: radial-gradient(#b2288e 15%, transparent 16%);
+            background-size: 20px 20px;
+        }
+
+        /* Slides Container */
+        .slider-container {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1200px;
+            z-index: 2;
+        }
+
+        .slide {
+            position: absolute;
+            width: 78%;
+            max-width: 1200px;
+            height: auto;
+            min-height: 70vh;
+            max-height: 85vh;
+            padding: 3rem 4rem;
+            background: var(--glass-white);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 2px solid var(--glass-border);
+            border-radius: 40px;
+            box-shadow: var(--slide-shadow);
+            text-align: left;
+            opacity: 0;
+            transform: translateY(60px) rotateX(-5deg);
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+            /* Allow scrolling if content is too long */
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0) rotateX(0deg);
+            visibility: visible;
+            z-index: 10;
+        }
+
+        /* 3D visuals render in a single fullscreen canvas */
+
+        /* Headers with Step Numbers */
+        .step-tag {
+            background: var(--primary);
+            color: #fff;
+            padding: 0.25rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Cards & Boxes */
+        .floating-card {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-bottom: 1rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            text-align: left;
+            padding: 0.8rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table th {
+            color: var(--primary);
+        }
+
+        .stat-box {
+            background: var(--secondary);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-val {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-lbl {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #666;
+        }
+
+        /* Controls */
+        .controls {
+            position: absolute;
+            bottom: 2rem;
+            right: 3rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        button {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 0.8rem 1.6rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(178, 40, 142, 0.3);
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+        }
+
+        .progress {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .citation {
+            position: absolute;
+            bottom: 1rem;
+            left: 3rem;
+            font-size: 0.75rem;
+            color: #888;
+            opacity: 0.8;
+            font-family: 'Outfit', sans-serif;
+            max-width: 70%;
+            z-index: 50;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="canvas-container"></div>
+
+    <div class="memphis-shape shape-dots" style="top: 5%; left: 5%;"></div>
+    <div class="memphis-shape shape-squiggle" style="bottom: 10%; right: 10%; transform: rotate(-15deg);"></div>
+
+    <div class="slider-container">
+
+        <!-- Intro Slide -->
+        <div class="slide active" data-id="0">
+            <div style="text-align: center; margin: auto;">
+                <h3 style="background: transparent;">Strategic Reconfiguration</h3>
+                <h1 style="font-size: 5rem; color: var(--primary); margin: 1rem 0;">Breadfast Pay</h1>
+                <p style="font-size: 2rem;">"Fueling your home, and your day."</p>
+                <p>The Family Ecosystem Strategy</p>
+                <button onclick="document.getElementById('nextBtn').click()">Start Presentation ➜</button>
+            </div>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="slide" data-id="1">
+            <span class="step-tag">Step 1</span>
+            <h2>Step 1 — Brand & Challenge</h2>
+            <div class="grid-2">
+                <div class="floating-card">
+                    <h3>Situation & Problem</h3>
+                    <p><strong>Situation:</strong> Inflation is squeezing Egyptian households. Breadfast is seen as
+                        "Premium Grocery".</p>
+                    <p><strong>Problem:</strong> Families are cutting "luxuries" (like coffee) to save money.</p>
+                </div>
+                <div class="floating-card" style="background: var(--secondary);">
+                    <h3>Opportunity & Success</h3>
+                    <p><strong>Opportunity:</strong> Position Breadfast Pay as the tool that <em>manages</em> the
+                        budget, not just spends it.</p>
+                    <p><strong>Success:</strong> 20k New Family Accounts + EGP 10M Wallet Load in 14 Days.</p>
+                </div>
+            </div>
+            <div class="citation">Sources: Internal Brief (2025).</div>
+        </div>
+
+        <!-- Step 1B: Macro Context -->
+        <div class="slide" data-id="1b">
+            <span class="step-tag">Step 1B</span>
+            <h2>Strategic Context</h2>
+            <div class="grid-2">
+                <div>
+                    <div class="floating-card" style="position: relative; height: 380px; padding: 1rem;">
+                        <h3 style="margin-bottom: 1rem;">Competitive Landscape</h3>
+
+                        <!-- Quadrant Chart -->
+                        <div
+                            style="position: relative; width: 100%; height: 300px; border: 1px solid #ddd; overflow: hidden; border-radius: 8px;">
+
+                            <!-- Quadrant Backgrounds (Zoning) -->
+                            <!-- Q1: Top Right (Family+Lifestyle) = The Sweet Spot -->
+                            <div
+                                style="position: absolute; top:0; right:0; width:50%; height:50%; background: rgba(178, 40, 142, 0.08); z-index:0;">
+                                <span
+                                    style="position: absolute; top: 10px; right: 10px; font-size: 0.7rem; color: var(--primary); font-weight: bold; text-transform: uppercase;">The
+                                    Sweet Spot</span>
+                            </div>
+                            <!-- Q3: Bottom Left (Individual+Utility) = The Crowded Utilities -->
+                            <div
+                                style="position: absolute; bottom:0; left:0; width:50%; height:50%; background: rgba(0,0,0,0.03); z-index:0;">
+                                <span
+                                    style="position: absolute; bottom: 10px; left: 10px; font-size: 0.7rem; color: #999;font-weight: bold;">Utility
+                                    Zone</span>
+                            </div>
+
+                            <!-- Axis Labels -->
+                            <span
+                                style="position: absolute; top: 5px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: #555; background: #fff; padding: 2px 6px; border-radius: 4px; z-index:5;">Family</span>
+                            <span
+                                style="position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: #555; background: #fff; padding: 2px 6px; border-radius: 4px; z-index:5;">Individual</span>
+                            <span
+                                style="position: absolute; top: 50%; left: 5px; transform: translateY(-50%) rotate(-90deg); font-size: 0.75rem; color: #555; z-index:5;">Utility</span>
+                            <span
+                                style="position: absolute; top: 50%; right: 5px; transform: translateY(-50%) rotate(90deg); font-size: 0.75rem; color: #555; z-index:5;">Lifestyle</span>
+
+                            <!-- Grid Lines -->
+                            <div
+                                style="position: absolute; top: 50%; width: 100%; height: 1px; background: #ccc; z-index:1;">
+                            </div>
+                            <div
+                                style="position: absolute; left: 50%; height: 100%; width: 1px; background: #ccc; z-index:1;">
+                            </div>
+
+                            <!-- Competitors -->
+                            <!-- 1. Breadfast Pay (HERO) -->
+                            <div style="position: absolute; top: 20%; right: 20%; text-align: center; z-index:10;">
+                                <div
+                                    style="width: 20px; height: 20px; background: var(--primary); border-radius: 50%; margin: 0 auto; box-shadow: 0 0 0 4px rgba(178, 40, 142, 0.2); animation: pulse 2s infinite;">
+                                </div>
+                                <span
+                                    style="font-size: 0.9rem; font-weight: bold; color: var(--primary); background: rgba(255,255,255,0.9); padding: 0 4px; border-radius: 4px;">Breadfast
+                                    Pay</span>
+                            </div>
+
+                            <!-- 2. Klivvr (Family/Utility hybrid) -->
+                            <div style="position: absolute; top: 30%; right: 45%; text-align: center; z-index:5;">
+                                <div
+                                    style="width: 10px; height: 10px; background: #FF4500; border-radius: 50%; margin: 0 auto;">
+                                </div>
+                                <span style="font-size: 0.7rem; color: #666;">Klivvr</span>
+                            </div>
+
+                            <!-- 3. Fawry (Family/Utility) -->
+                            <div style="position: absolute; top: 25%; left: 30%; text-align: center; z-index:5;">
+                                <div
+                                    style="width: 12px; height: 12px; background: #ffcc00; border-radius: 50%; margin: 0 auto;">
+                                </div>
+                                <span style="font-size: 0.8rem; font-weight: bold; color: #444;">Fawry</span>
+                            </div>
+
+                            <!-- 4. Telda (Individual/Lifestyle) -->
+                            <div style="position: absolute; bottom: 35%; right: 15%; text-align: center; z-index:5;">
+                                <div
+                                    style="width: 12px; height: 12px; background: #000; border-radius: 50%; margin: 0 auto;">
+                                </div>
+                                <span style="font-size: 0.8rem; font-weight: bold; color: #000;">Telda</span>
+                            </div>
+
+                            <!-- 5. Nexta (Individual/Lifestyle) -->
+                            <div style="position: absolute; bottom: 20%; right: 35%; text-align: center; z-index:5;">
+                                <div
+                                    style="width: 10px; height: 10px; background: #3498db; border-radius: 50%; margin: 0 auto;">
+                                </div>
+                                <span style="font-size: 0.7rem; color: #666;">Nexta</span>
+                            </div>
+
+                            <!-- 6. Lucky (Individual/Lifestyle) -->
+                            <div style="position: absolute; bottom: 40%; right: 10%; text-align: center; z-index:5;">
+                                <div
+                                    style="width: 10px; height: 10px; background: #f1c40f; border-radius: 50%; margin: 0 auto;">
+                                </div>
+                                <span style="font-size: 0.7rem; color: #666;">Lucky</span>
+                            </div>
+
+                            <!-- 7. Instapay (Individual/Utility) -->
+                            <div style="position: absolute; bottom: 25%; left: 35%; text-align: center; z-index:5;">
+                                <div
+                                    style="width: 12px; height: 12px; background: #4b0082; border-radius: 50%; margin: 0 auto;">
+                                </div>
+                                <span style="font-size: 0.8rem; font-weight: bold; color: #4b0082;">Instapay</span>
+                            </div>
+
+                            <!-- 8. Halan (Individual/Utility) -->
+                            <div style="position: absolute; bottom: 40%; left: 15%; text-align: center; z-index:5;">
+                                <div
+                                    style="width: 10px; height: 10px; background: #e74c3c; border-radius: 50%; margin: 0 auto;">
+                                </div>
+                                <span style="font-size: 0.7rem; color: #666;">Halan</span>
+                            </div>
+
+                            <!-- 9. OPay (Individual/Utility) -->
+                            <div style="position: absolute; bottom: 12%; left: 25%; text-align: center; z-index:5;">
+                                <div
+                                    style="width: 10px; height: 10px; background: #2ecc71; border-radius: 50%; margin: 0 auto;">
+                                </div>
+                                <span style="font-size: 0.7rem; color: #666;">OPay</span>
+                            </div>
+
+                            <!-- 10. Takka (Individual/Utility) -->
+                            <div style="position: absolute; bottom: 8%; left: 45%; text-align: center; z-index:5;">
+                                <div
+                                    style="width: 10px; height: 10px; background: #34495e; border-radius: 50%; margin: 0 auto;">
+                                </div>
+                                <span style="font-size: 0.7rem; color: #666;">Takka</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="floating-card">
+                        <h3>Strategic Pivot</h3>
+                        <p style="font-style: italic;">From "Grocery App" to "Lifestyle Hub"</p>
+                        <p>Breadfast isn't just for Moms anymore. Breadfast Coffee has made it a Gen Z "Third Place". We
+                            must target the <strong>entire household</strong>.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="citation">Sources: Fintech News Africa (2024).</div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="slide" data-id="2">
+            <span class="step-tag">Step 2</span>
+            <h2>Step 2 — Audience & Insight</h2>
+            <div class="grid-2">
+                <div class="floating-card">
+                    <h3>Persona A: "Noha"</h3>
+                    <p><strong>The Household CEO (28-45)</strong></p>
+                    <ul>
+                        <li><strong>Goal:</strong> Managing inflation & family budget.</li>
+                        <li><strong>Insight:</strong> "I manage everyone else's needs; I deserve a moment for myself."
+                        </li>
+                        <li><strong>Hook:</strong> "The Guilt-Free Treat."</li>
+                    </ul>
+                </div>
+                <div class="floating-card" style="border-left: 5px solid var(--accent);">
+                    <h3>Persona B: "Youssef"</h3>
+                    <p><strong>Gen Z Aspirant (18-24)</strong></p>
+                    <ul>
+                        <li><strong>Goal:</strong> "Soft Saving" for lifestyle experiences.</li>
+                        <li><strong>Insight:</strong> "I don't want a bank; I want a membership card."</li>
+                        <li><strong>Hook:</strong> "The Coffee Budget."</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="citation">Sources: Euromonitor (2025); The Guardian (2025).</div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="slide" data-id="3">
+            <span class="step-tag">Step 3</span>
+            <h2>Step 3 — Objectives (SMART) + AMEC Map</h2>
+            <div class="grid-2">
+                <div class="floating-card">
+                    <h3>O1: Awareness (TOFU)</h3>
+                    <p><strong>Goal:</strong> Reach 1.5M Unique Households.</p>
+                    <p><em>Metric:</em> CTR &ge; 2% on "Split Screen" Ads.</p>
+                </div>
+                <div class="floating-card">
+                    <h3>O2: Adoption (BOFU)</h3>
+                    <p><strong>Goal:</strong> 20,000 Active Family Accounts.</p>
+                    <p><em>Metric:</em> CPL &le; EGP 45 (Cost Per Activated Wallet).</p>
+                </div>
+            </div>
+            <div class="floating-card" style="margin-top: 1rem;">
+                <h3>AMEC Map</h3>
+                <p><strong>Outputs:</strong> 15 Reels + 2 PR Features + 10k Bag Inserts.</p>
+                <p><strong>Outtakes:</strong> "Breadfast helps me save money." (Sentiment > 70%).</p>
+                <p><strong>Outcomes:</strong> Average Order Value (AOV) increases by 15% due to cross-category spending.
+                </p>
+            </div>
+            <div class="citation">Sources: AMEC Framework (2025).</div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="slide" data-id="4">
+            <span class="step-tag">Step 4</span>
+            <h2>Step 4 — Strategy & Message House</h2>
+            <!-- Message House CSS Diagram -->
+            <style>
+                .msg-house {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    width: 100%;
+                    max-width: 800px;
+                    margin: 0 auto;
+                }
+
+                .house-roof {
+                    width: 0;
+                    height: 0;
+                    border-left: 350px solid transparent;
+                    border-right: 350px solid transparent;
+                    border-bottom: 80px solid var(--primary);
+                    position: relative;
+                }
+
+                .roof-content {
+                    position: absolute;
+                    bottom: -80px;
+                    left: -350px;
+                    width: 700px;
+                    text-align: center;
+                    color: white;
+                    padding-top: 30px;
+                }
+
+                .house-body {
+                    display: flex;
+                    width: 90%;
+                    /* Pillars width */
+                    gap: 1rem;
+                    background: #fff;
+                    padding: 0 1rem;
+                }
+
+                .pillar {
+                    flex: 1;
+                    background: #f9f9f9;
+                    border: 1px solid #ddd;
+                    padding: 1rem;
+                    border-radius: 4px;
+                    text-align: center;
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+                }
+
+                .house-foundation {
+                    width: 95%;
+                    background: #333;
+                    color: white;
+                    text-align: center;
+                    padding: 0.8rem;
+                    border-radius: 0 0 8px 8px;
+                    margin-top: 0.5rem;
+                }
+            </style>
+            <div class="msg-house">
+                <!-- Roof -->
+                <div class="house-roof">
+                    <div class="roof-content">
+                        <strong>The Family Wallet</strong>
+                        <div style="font-size: 0.8rem; margin-top:5px; opacity:0.9;">Unifying Grocery & Lifestyle
+                            Budgets</div>
+                    </div>
+                </div>
+                <!-- Pillars -->
+                <div class="house-body">
+                    <div class="pillar">
+                        <h4 style="color:var(--primary);">Pillar 1: Moms</h4>
+                        <p style="font-size:0.85rem; margin:0.5rem 0;">"Cashback on Groceries"</p>
+                        <hr style="border:0; border-top:1px solid #ddd; margin:0.5rem 0;">
+                        <em style="font-size:0.8rem; color:#666;">Empathetic, Secure, Rewarding</em>
+                    </div>
+                    <div class="pillar">
+                        <h4 style="color:var(--accent);">Pillar 2: Gen Z</h4>
+                        <p style="font-size:0.85rem; margin:0.5rem 0;">"Cashback on Coffee"</p>
+                        <hr style="border:0; border-top:1px solid #ddd; margin:0.5rem 0;">
+                        <em style="font-size:0.8rem; color:#666;">Aesthetic, Fast, Savvy</em>
+                    </div>
+                </div>
+                <!-- Foundation -->
+                <div class="house-foundation">
+                    <strong>Foundation: Trust (Powered by ADIB & Visa)</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW Step 4B: Product Features -->
+        <div class="slide" data-id="4b">
+            <span class="step-tag">Step 4B</span>
+            <h2> The Product Ecosystem</h2>
+            <div class="grid-2">
+                <div class="floating-card">
+                    <h3>Feature: "The Student Card"</h3>
+                    <p>Linked to Mom's main account. Limits set by her.</p>
+                    <p><em>Solves:</em> Mom's need for control + Gen Z's need for independence.</p>
+                </div>
+                <div class="floating-card">
+                    <h3>The "Adulting" Education</h3>
+                    <p>App acts as a "Financial Coach".</p>
+                    <p><em>Visual:</em> "You spent EGP 400 on coffee this month." (Data-driven insights for Gen Z).</p>
+                </div>
+            </div>
+            <div class="citation">Sources: Product Requirements Document (2025).</div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="slide" data-id="5">
+            <span class="step-tag">Step 5</span>
+            <h2>Step 5 — PESO Channel Mix</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Channel</th>
+                        <th>Target</th>
+                        <th>Creative Strategy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Paid (Meta)</strong></td>
+                        <td>Moms</td>
+                        <td>"Split Screen": Ordering Diapers vs. Enjoying Coffee. <br><em>"Turn chores into chill."</em>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Paid (TikTok)</strong></td>
+                        <td>Gen Z</td>
+                        <td>"Day in the Life": Fast-paced vlogs. <br><em>"Stop overpaying. Start hacking your coffee
+                                budget."</em></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Shared</strong></td>
+                        <td>Both</td>
+                        <td>"Family Challenge": Mom vs. Gen Z budgeting. <br><em>Influencers: Marwa Hassan, Campus
+                                Ambassadors.</em></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Earned</strong></td>
+                        <td>Market</td>
+                        <td>"The Inflation Shield": Feature stories in Youm7 & Enterprise. <br><em>Focus: Trust &
+                                Ecosystem.</em></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Owned</strong></td>
+                        <td>Both</td>
+                        <td><strong>Coffee Sleeves:</strong> QR Code ("This cup could be free").<br><strong>Bag
+                                Inserts:</strong> "Send coffee money instantly."</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="citation">Sources: Misr Connect (2024); Cairo 360 (2024).</div>
+        </div>
+
+        <!-- NEW Step 5B: Earned Media -->
+        <div class="slide" data-id="earned">
+            <span class="step-tag">Step 5B</span>
+            <h2>Earned Media Strategy (PR)</h2>
+            <div class="grid-2">
+                <div class="floating-card">
+                    <h3>The Tech Angle</h3>
+                    <p><strong>Target:</strong> Enterprise, Daily News.</p>
+                    <p><em>Hook:</em> "The Super-App Puzzle Complete." <br>Breadfast closes the loop: Logistics +
+                        Fintech.</p>
+                </div>
+                <div class="floating-card">
+                    <h3>The Consumer Angle</h3>
+                    <p><strong>Target:</strong> Youm7, Masrawy, Lifestyle Portals.</p>
+                    <p><em>Hook:</em> "The Inflation Shield." <br>How a grocery app helps Egyptian families save EGP
+                        500/month.</p>
+                </div>
+            </div>
+            <div class="floating-card" style="margin-top: 1rem; border-left: 5px solid var(--primary);">
+                <h3>Press Release Headline</h3>
+                <p style="font-size: 1.2rem; font-weight: bold;">"Breadfast Launches 'Family Wallet' to Combat
+                    Inflation: One App, Two Lifestyles."</p>
+            </div>
+            <div class="citation">Sources: Meltwater (2025).</div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="slide" data-id="6">
+            <span class="step-tag">Step 6</span>
+            <h2>Step 6 — 2‑Week Content Calendar</h2>
+            <style>
+                .cal-grid {
+                    display: grid;
+                    grid-template-columns: repeat(5, 1fr);
+                    gap: 1rem;
+                    text-align: center;
+                }
+
+                .cal-day {
+                    background: #fff;
+                    padding: 0.8rem;
+                    border-radius: 12px;
+                    border: 1px solid #eee;
+                    font-size: 0.85rem;
+                }
+
+                .cal-day strong {
+                    display: block;
+                    color: var(--primary);
+                    margin-bottom: 0.3rem;
+                }
+
+                .cal-tag-mom {
+                    background: #ffe4fa;
+                    color: #b2288e;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    display: inline-block;
+                    margin: 2px;
+                }
+
+                .cal-tag-genz {
+                    background: #e0f7fa;
+                    color: #00bcd4;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    display: inline-block;
+                    margin: 2px;
+                }
+
+                .cal-tag-both {
+                    background: #fff9c4;
+                    color: #fbc02d;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    display: inline-block;
+                    margin: 2px;
+                }
+            </style>
+            <div class="cal-grid">
+                <!-- Day 1 -->
+                <div class="cal-day">
+                    <strong>Day 1</strong>
+                    <span class="cal-tag-both">Agile</span>
+                    <p>"Split Screen" Launch Video (Meta/TikTok)</p>
+                </div>
+                <!-- Day 2 -->
+                <div class="cal-day">
+                    <strong>Day 2</strong>
+                    <span class="cal-tag-genz">TikTok</span>
+                    <p>"Girl Math" (Coffee is Free)</p>
+                </div>
+                <!-- Day 3 -->
+                <div class="cal-day">
+                    <strong>Day 3</strong>
+                    <span class="cal-tag-mom">IG Stories</span>
+                    <p>"Treat Yourself Tuesday" (Cashback)</p>
+                </div>
+                <!-- Day 5 -->
+                <div class="cal-day">
+                    <strong>Day 5</strong>
+                    <span class="cal-tag-both">PR</span>
+                    <p>"Inflation Shield" (News Features)</p>
+                </div>
+                <!-- Day 7 -->
+                <div class="cal-day">
+                    <strong>Day 7</strong>
+                    <span class="cal-tag-both">Shared</span>
+                    <p>Influencer Challenge Kickoff</p>
+                </div>
+                <!-- Day 8 -->
+                <div class="cal-day">
+                    <strong>Day 8</strong>
+                    <span class="cal-tag-mom">FB Video</span>
+                    <p>"Financial Parenting" Guide</p>
+                </div>
+                <!-- Day 10 -->
+                <div class="cal-day">
+                    <strong>Day 10</strong>
+                    <span class="cal-tag-genz">TikTok</span>
+                    <p>"Hidden Menu" Reveal</p>
+                </div>
+                <!-- Day 12 -->
+                <div class="cal-day">
+                    <strong>Day 12</strong>
+                    <span class="cal-tag-both">IG Live</span>
+                    <p>Q&A with Founder</p>
+                </div>
+                <!-- Day 13 -->
+                <div class="cal-day">
+                    <strong>Day 13</strong>
+                    <span class="cal-tag-mom">Email</span>
+                    <p>"Last Chance" for 20% Off</p>
+                </div>
+                <!-- Day 14 -->
+                <div class="cal-day">
+                    <strong>Day 14</strong>
+                    <span class="cal-tag-both">UGC</span>
+                    <p>Best "Family Wins" Reposted</p>
+                </div>
+            </div>
+            <div class="citation">Sources: Treasury.id (2024); AUC Caravan (2025).</div>
+        </div>
+
+        <!-- Step 6B: Visuals -->
+        <div class="slide" data-id="7">
+            <span class="step-tag">Step 6B</span>
+            <h2>Visual Strategy</h2>
+            <div class="grid-2">
+                <div class="floating-card">
+                    <h3>The Split Screen</h3>
+                    <p style="font-size: 0.9rem; color: #555;">Visualizing the balance. Left: Responsible Pantry
+                        Loading. Right: Indulgent Coffee Moment.</p>
+                </div>
+                <div class="floating-card">
+                    <h3>Gen Z Aesthetic</h3>
+                    <p style="font-size: 0.9rem; color: #555;">High contrast, flash photography, "Receipt" graphics
+                        showing savings. "Soft Saving" vibes.</p>
+                </div>
+                <div class="floating-card">
+                    <h3>Mom Aesthetic</h3>
+                    <p style="font-size: 0.9rem; color: #555;">Warm, organized, peaceful. The app is a tool for
+                        <em>control</em>.
+                    </p>
+                </div>
+                <div class="floating-card">
+                    <h3>The Red Thread</h3>
+                    <p style="font-size: 0.9rem; color: #555;">The <strong>Purple Card</strong> connects both worlds.
+                        It's the key to both the pantry and the café.</p>
+                </div>
+            </div>
+            <div class="citation">Sources: SceneNow (2025).</div>
+        </div>
+
+        <!-- Step 7 -->
+        <div class="slide" data-id="8">
+            <span class="step-tag">Step 7</span>
+            <h2>Step 7 — Creators/Influencers Plan</h2>
+            <style>
+                .profile-card {
+                    background: #fff;
+                    border: 1px solid #eee;
+                    border-radius: 12px;
+                    padding: 1rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                }
+
+                .profile-pic {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 50%;
+                    background: #eee;
+                    border: 2px solid #fff;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                    flex-shrink: 0;
+                }
+
+                .profile-pic.mom {
+                    background-image: url('https://img.icons8.com/color/96/mom.png');
+                    background-size: cover;
+                    border-color: #b2288e;
+                }
+
+                .profile-pic.genz {
+                    background-image: url('https://img.icons8.com/color/96/student-male.png');
+                    background-size: cover;
+                    border-color: #00bcd4;
+                }
+
+                .profile-info h4 {
+                    margin: 0;
+                    font-size: 1rem;
+                }
+
+                .profile-handle {
+                    font-size: 0.8rem;
+                    color: #777;
+                    margin-bottom: 0.3rem;
+                    display: block;
+                }
+
+                .profile-stats {
+                    font-size: 0.75rem;
+                    font-weight: bold;
+                    color: #333;
+                    display: flex;
+                    gap: 0.8rem;
+                    margin-bottom: 0.5rem;
+                }
+
+                .profile-btn {
+                    background: #efefef;
+                    border: none;
+                    padding: 4px 12px;
+                    border-radius: 4px;
+                    font-size: 0.75rem;
+                    font-weight: bold;
+                }
+            </style>
+            <div class="grid-2">
+                <!-- Mom Profile -->
+                <div class="profile-card">
+                    <div class="profile-pic mom"></div>
+                    <div class="profile-info">
+                        <h4>Marwa Hassan</h4>
+                        <span class="profile-handle">@marwahassan • Instagram</span>
+                        <div class="profile-stats">
+                            <span>2.4M Followers</span>
+                            <span>Avg. Reach: 400k</span>
+                        </div>
+                        <div style="font-size: 0.85rem; color: #444; font-style: italic;">
+                            "Brief: Showing the reality of family budgeting."
+                        </div>
+                    </div>
+                </div>
+                <!-- Gen Z Profile -->
+                <div class="profile-card">
+                    <div class="profile-pic genz"></div>
+                    <div class="profile-info">
+                        <h4>Campus Ambassadors</h4>
+                        <span class="profile-handle">@AUC_Gossip • TikTok</span>
+                        <div class="profile-stats">
+                            <span>500k Followers</span>
+                            <span>Engagement: 12%</span>
+                        </div>
+                        <div style="font-size: 0.85rem; color: #444; font-style: italic;">
+                            "Brief: The Study Hack. Cashback notification flex."
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="citation">Sources: Misr Connect (2024); Cairo 360 (2024).</div>
+        </div>
+
+        <!-- Step 8 -->
+        <div class="slide" data-id="lp">
+            <span class="step-tag">Step 8</span>
+            <h2>Step 8 — Landing Page / Conversion Path</h2>
+            <p>Directing traffic to a high-conversion landing page with tracked UTMs.</p>
+
+            <!-- Mock Browser Window -->
+            <div
+                style="background: #fff; border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); border: 1px solid #ddd; overflow: hidden; margin-top: 1rem; position: relative;">
+                <!-- Browser Bar -->
+                <div
+                    style="background: #e0e0e0; padding: 0.8rem 1rem; display: flex; align-items: center; gap: 0.8rem;">
+                    <div style="display: flex; gap: 0.4rem;">
+                        <div style="width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></div>
+                        <div style="width: 10px; height: 10px; border-radius: 50%; background: #ffbd2e;"></div>
+                        <div style="width: 10px; height: 10px; border-radius: 50%; background: #28c940;"></div>
+                    </div>
+                    <div
+                        style="flex: 1; background: #fff; padding: 0.4rem 0.8rem; border-radius: 6px; font-family: monospace; font-size: 0.85rem; color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border: 1px solid #ccc;">
+                        🔒 https://breadfast.com/pay?<span
+                            style="color: #b2288e; font-weight: bold;">utm_source=family</span>&<span
+                            style="color: #b2288e; font-weight: bold;">utm_medium=deck</span>
+                    </div>
+                </div>
+
+                <!-- Page Content -->
+                <div
+                    style="position: relative; height: 380px; overflow: hidden; background: #000; color: #fff; text-align: center;">
+                    <!-- Real Hero Video -->
+                    <video autoplay loop muted playsinline
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6;">
+                        <source src="https://pay.breadfast.com/wp-content/uploads/2025/10/card-video.mp4#t=0,100"
+                            type="video/mp4">
+                    </video>
+                    <!-- Overlay Content -->
+                    <div style="position: relative; z-index: 2; padding: 3rem 2rem;">
+                        <img src="https://pay.breadfast.com/wp-content/uploads/2025/07/Breadfast-Pay-Mark-Full.png"
+                            alt="Breadfast Pay"
+                            style="height: 40px; margin-bottom: 1.5rem; filter: brightness(0) invert(1);">
+                        <h1 style="font-size: 2rem; margin-bottom: 0.5rem; text-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+                            Fueling your home, and your day.</h1>
+                        <p style="font-size: 1.1rem; margin-bottom: 2rem; text-shadow: 0 4px 20px rgba(0,0,0,0.5);">One
+                            Wallet. Two Lifestyles.</p>
+                        <button
+                            style="background: #b2288e; color: #fff; padding: 0.8rem 2rem; border: none; border-radius: 50px; font-size: 1rem; font-weight: bold; cursor: pointer; box-shadow: 0 10px 20px rgba(178, 40, 142, 0.4); transition: transform 0.2s;">
+                            Join the Family
+                        </button>
+                    </div>
+                    <!-- Features Strip -->
+                    <div
+                        style="position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 1rem; display: flex; justify-content: space-around; font-size: 0.8rem;">
+                        <div style="text-align: center;"><span
+                                style="display:block; font-size: 1.2rem;">👨‍👩‍👧‍👦</span>Family Cards</div>
+                        <div style="text-align: center;"><span style="display:block; font-size: 1.2rem;">☕</span>Coffee
+                            Perks</div>
+                        <div style="text-align: center;"><span
+                                style="display:block; font-size: 1.2rem;">🛒</span>Grocery Cashback</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 9 -->
+        <div class="slide" data-id="9">
+            <span class="step-tag">Step 9</span>
+            <h2>Step 9 — Community Management & Issues</h2>
+            <div class="grid-2">
+                <div class="floating-card">
+                    <h3>Response Tone</h3>
+                    <p><strong>Institutional & Helpful.</strong> Avoid "Gen Z slang".</p>
+                </div>
+                <div class="floating-card">
+                    <h3>Features</h3>
+                    <p>Financial Coach ("You spent EGP 400 on coffee").</p>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="floating-card">
+                    <h3>Listening Keywords</h3>
+                    <p>"Breadfast card", "allowance", "grocery cashback", "student budget".</p>
+                </div>
+            </div>
+            <div class="citation">Sources: AUC Caravan (2025).</div>
+        </div>
+
+        <!-- Step 10 -->
+        <div class="slide" data-id="10">
+            <span class="step-tag">Step 10</span>
+            <h2>Step 10 — Measurement Plan</h2>
+            <div class="grid-2">
+                <div class="floating-card">
+                    <h3>Family KPIs (Funnel)</h3>
+                    <!-- CSS Funnel -->
+                    <style>
+                        .funnel-container {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            margin: 1rem 0;
+                        }
+
+                        .funnel-step {
+                            color: #fff;
+                            text-align: center;
+                            padding: 8px;
+                            position: relative;
+                            margin-bottom: 2px;
+                            font-size: 0.9rem;
+                            font-weight: bold;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            flex-direction: column;
+                        }
+
+                        .f-top {
+                            width: 90%;
+                            background: #b2288e;
+                            clip-path: polygon(0 0, 100% 0, 90% 100%, 10%);
+                        }
+
+                        .f-mid {
+                            width: 70%;
+                            background: #c65aa8;
+                            clip-path: polygon(0 0, 100% 0, 85% 100%, 15%);
+                        }
+
+                        .f-bot {
+                            width: 50%;
+                            background: #d98cc2;
+                            clip-path: polygon(0 0, 100% 0, 80% 100%, 20%);
+                        }
+
+                        .f-metric {
+                            font-size: 0.75rem;
+                            opacity: 0.9;
+                            font-weight: normal;
+                        }
+                    </style>
+                    <div class="funnel-container">
+                        <div class="funnel-step f-top">
+                            Reach
+                            <span class="f-metric">1.5M Households</span>
+                        </div>
+                        <div class="funnel-step f-mid">
+                            Adoption
+                            <span class="f-metric">20,000 Accounts</span>
+                        </div>
+                        <div class="funnel-step f-bot">
+                            Volume
+                            <span class="f-metric">EGP 10M Wallet Load</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="floating-card">
+                    <h3>AMEC Outcomes</h3>
+                    <p><strong>Behavior Change:</strong> Mom shifts grocery budget to Breadfast for rewards. <br>Gen Z
+                        shifts coffee spend for cashback.</p>
+                </div>
+            </div>
+            <div class="citation">Sources: Bethel University (2014).</div>
+        </div>
+
+        <!-- Step 11 -->
+        <div class="slide" data-id="11">
+            <span class="step-tag">Step 11</span>
+            <h2>Step 11 — Budget & Timeline</h2>
+            <style>
+                .chart-container {
+                    margin-top: 1rem;
+                }
+
+                .bar-group {
+                    margin-bottom: 1.2rem;
+                }
+
+                .bar-label {
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 0.9rem;
+                    margin-bottom: 0.4rem;
+                }
+
+                .bar-bg {
+                    background: #eee;
+                    border-radius: 10px;
+                    height: 20px;
+                    width: 100%;
+                    overflow: hidden;
+                }
+
+                .bar-fill {
+                    height: 100%;
+                    background: var(--primary);
+                    border-radius: 10px 0 0 10px;
+                    width: 0;
+                    animation: fillBar 1.5s ease-out forwards;
+                }
+
+                @keyframes fillBar {
+                    from {
+                        width: 0;
+                    }
+                }
+            </style>
+            <div class="grid-2">
+                <div class="floating-card">
+                    <h3>Total Budget: EGP 65,000</h3>
+                    <div class="chart-container">
+                        <!-- Item 1 -->
+                        <div class="bar-group">
+                            <div class="bar-label">
+                                <span>Paid Media (Meta/TikTok)</span>
+                                <strong>EGP 40,000</strong>
+                            </div>
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: 61%; animation-delay: 0.2s;"></div>
+                            </div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="bar-group">
+                            <div class="bar-label">
+                                <span>Influencers (Shared)</span>
+                                <strong>EGP 20,000</strong>
+                            </div>
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: 30%; background: #FDCB6E; animation-delay: 0.4s;">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 3 -->
+                        <div class="bar-group">
+                            <div class="bar-label">
+                                <span>Production (Owned)</span>
+                                <strong>EGP 5,000</strong>
+                            </div>
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: 9%; background: #2d3436; animation-delay: 0.6s;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="floating-card">
+                    <h3>Timeline (14 Days)</h3>
+                    <p><strong>Week 1:</strong> Trust & Awareness (PR + Meta Ads).</p>
+                    <p><strong>Week 2:</strong> Conversion & Viral Challenges (TikTok + Influencers).</p>
+                </div>
+            </div>
+            <div class="citation">Sources: AMEC (2025).</div>
+        </div>
+
+        <!-- Step 12 -->
+        <div class="slide" data-id="12">
+            <span class="step-tag">Step 12</span>
+            <h2>Step 12 — Risks, Ethics & AI Use</h2>
+            <div class="grid-2">
+                <div class="floating-card" style="border-left: 5px solid red;">
+                    <h3>Regulatory Compliance</h3>
+                    <p><strong>Minors (16+):</strong> CBE allows prepaid cards with guardian approval.</p>
+                    <p><em>Action:</em> Ensure clear "Guardian Consent" flow in app.</p>
+                </div>
+                <div class="floating-card" style="border-left: 5px solid var(--accent);">
+                    <h3>Data Privacy</h3>
+                    <p><strong>Inflation Anxiety:</strong> Gen Z fears "debt" traps.</p>
+                    <p><em>Action:</em> Position as "Prepaid" (Spend what you have) vs. Credit (Debt).</p>
+                </div>
+            </div>
+            <div class="citation">Sources: Shehata & Partners (n.d.); CBE (2023).</div>
+        </div>
+
+    </div>
+
+    <!-- UI Overlay -->
+    <div class="progress">Slide <span id="current">0</span> / 12</div>
+    <div class="controls">
+        <button id="prevBtn">←</button>
+        <button id="nextBtn">→</button>
+    </div>
+
+    <!-- Three.js Background -->
+    <script>
+        // Simplified: single scene/renderer; slide visuals anchored to the right in world space.
+
+        const slides = document.querySelectorAll('.slide');
+        const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        const colors = {
+            primary: new THREE.Color(0xb2288e),
+            secondary: new THREE.Color(0xedffef),
+            accent: new THREE.Color(0xfdcb6e),
+            ink: new THREE.Color(0x2d3436)
+        };
+
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0xffffff, 0.018);
+
+        const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 80);
+        camera.position.set(0, 0.4, 9.5);
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000, 0);
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        renderer.physicallyCorrectLights = true;
+        container.appendChild(renderer.domElement);
+
+        // Lights
+        scene.add(new THREE.HemisphereLight(0xffffff, 0xf3f0ff, 0.85));
+        const keyLight = new THREE.DirectionalLight(0xffffff, 0.95);
+        keyLight.position.set(4, 5, 6);
+        scene.add(keyLight);
+        const fillLight = new THREE.DirectionalLight(0xffffff, 0.45);
+        fillLight.position.set(-6, -2, 8);
+        scene.add(fillLight);
+
+        // Background "bubbles" (similar to your original spheres) — always visible.
+        // Uses InstancedMesh for performance.
+        function createBubbleField({ count, material, xRange, yRange, zRange }) {
+            const geo = new THREE.SphereGeometry(1, 32, 32);
+            const mesh = new THREE.InstancedMesh(geo, material, count);
+            mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+            const dummy = new THREE.Object3D();
+
+            const bubbles = new Array(count).fill(null).map(() => {
+                return {
+                    x: (Math.random() - 0.5) * xRange,
+                    y: (Math.random() - 0.5) * yRange,
+                    z: (Math.random() * zRange) - zRange - 1.5,
+                    s: Math.random() * 0.9 + 0.35,
+                    vy: (Math.random() * 0.35 + 0.18) * 0.6,
+                    rx: (Math.random() * 0.8 + 0.2) * 0.2,
+                    ry: (Math.random() * 0.8 + 0.2) * 0.2,
+                    phase: Math.random() * Math.PI * 2
+                };
+            });
+
+            function update(dt, t) {
+                for (let i = 0; i < bubbles.length; i++) {
+                    const b = bubbles[i];
+                    b.y += b.vy * dt;
+                    if (b.y > yRange / 2 + 2) b.y = -yRange / 2 - 2;
+
+                    dummy.position.set(
+                        b.x + Math.sin(t * 0.6 + b.phase) * 0.3,
+                        b.y,
+                        b.z
+                    );
+                    dummy.rotation.set(t * b.rx, t * b.ry, 0);
+                    dummy.scale.setScalar(b.s);
+                    dummy.updateMatrix();
+                    mesh.setMatrixAt(i, dummy.matrix);
+                }
+                mesh.instanceMatrix.needsUpdate = true;
+            }
+
+            scene.add(mesh);
+            return { mesh, update };
+        }
+
+        const materialPurple = new THREE.MeshPhysicalMaterial({
+            color: colors.primary,
+            roughness: 0.22,
+            metalness: 0.1,
+            clearcoat: 0.75
+        });
+        const materialMint = new THREE.MeshPhysicalMaterial({
+            color: colors.secondary,
+            roughness: 0.12,
+            metalness: 0.0,
+            transmission: 0.35,
+            transparent: true,
+            opacity: 0.85,
+            clearcoat: 0.5
+        });
+
+        const bubbleFieldPurple = createBubbleField({ count: 16, material: materialPurple, xRange: 24, yRange: 18, zRange: 10 });
+        const bubbleFieldMint = createBubbleField({ count: 16, material: materialMint, xRange: 24, yRange: 18, zRange: 10 });
+
+        function roundedRectShape(width, height, radius) {
+            const w = width;
+            const h = height;
+            const r = Math.min(radius, Math.min(w, h) / 2);
+            const s = new THREE.Shape();
+            s.moveTo(-w / 2 + r, -h / 2);
+            s.lineTo(w / 2 - r, -h / 2);
+            s.absarc(w / 2 - r, -h / 2 + r, r, -Math.PI / 2, 0, false);
+            s.lineTo(w / 2, h / 2 - r);
+            s.absarc(w / 2 - r, h / 2 - r, r, 0, Math.PI / 2, false);
+            s.lineTo(-w / 2 + r, h / 2);
+            s.absarc(-w / 2 + r, h / 2 - r, r, Math.PI / 2, Math.PI, false);
+            s.lineTo(-w / 2, -h / 2 + r);
+            s.absarc(-w / 2 + r, -h / 2 + r, r, Math.PI, Math.PI * 1.5, false);
+            return s;
+        }
+
+        // Right-side anchor helper: place visuals to the right of slides in world space.
+        function applyAnchor(group, anchor) {
+            // anchor: { x, y, z }
+            if (!anchor) return;
+            group.position.set(anchor.x, anchor.y, anchor.z);
+        }
+
+        function makeMaterial(kind) {
+            if (kind === 'glass') {
+                return new THREE.MeshPhysicalMaterial({
+                    color: colors.secondary,
+                    roughness: 0.12,
+                    metalness: 0.0,
+                    transmission: 0.35,
+                    transparent: true,
+                    opacity: 0.9,
+                    clearcoat: 0.6
+                });
+            }
+            if (kind === 'accent') {
+                return new THREE.MeshPhysicalMaterial({
+                    color: colors.accent,
+                    roughness: 0.3,
+                    metalness: 0.25,
+                    clearcoat: 0.7
+                });
+            }
+            return new THREE.MeshPhysicalMaterial({
+                color: colors.primary,
+                roughness: 0.22,
+                metalness: 0.15,
+                clearcoat: 0.75
+            });
+        }
+
+        function createCardMesh(width = 3.1, height = 2.0, thickness = 0.14, colorKind = 'primary') {
+            const shape = roundedRectShape(width, height, Math.min(width, height) * 0.18);
+            const geo = new THREE.ExtrudeGeometry(shape, {
+                depth: thickness,
+                bevelEnabled: true,
+                bevelThickness: 0.05,
+                bevelSize: 0.05,
+                bevelSegments: 4,
+                curveSegments: 20
+            });
+            geo.center();
+            const mesh = new THREE.Mesh(geo, makeMaterial(colorKind));
+            return mesh;
+        }
+
+        function createCoinStack() {
+            const group = new THREE.Group();
+            const coinGeo = new THREE.CylinderGeometry(0.65, 0.65, 0.16, 40, 1);
+            const coinMat = makeMaterial('accent');
+            for (let i = 0; i < 4; i++) {
+                const c = new THREE.Mesh(coinGeo, coinMat);
+                c.rotation.x = Math.PI / 2;
+                c.position.z = i * 0.18;
+                c.position.y = i * 0.02;
+                group.add(c);
+            }
+            return group;
+        }
+
+        function createShield() {
+            const group = new THREE.Group();
+            const shieldGeo = new THREE.IcosahedronGeometry(1.25, 0);
+            const shield = new THREE.Mesh(shieldGeo, makeMaterial('glass'));
+            shield.scale.set(1.0, 1.25, 0.85);
+            group.add(shield);
+            const lockGeo = new THREE.TorusGeometry(0.45, 0.16, 12, 28);
+            const lock = new THREE.Mesh(lockGeo, makeMaterial('primary'));
+            lock.position.set(0, -0.05, 0.95);
+            group.add(lock);
+            return group;
+        }
+
+        function createBars() {
+            const group = new THREE.Group();
+            const barGeo = new THREE.BoxGeometry(0.65, 1, 0.65);
+            const mats = [makeMaterial('primary'), makeMaterial('glass'), makeMaterial('accent')];
+            const heights = [1.8, 1.2, 2.4];
+            for (let i = 0; i < 3; i++) {
+                const bar = new THREE.Mesh(barGeo, mats[i]);
+                bar.scale.y = heights[i];
+                bar.position.set((i - 1) * 0.95, (heights[i] / 2) - 0.15, 0);
+                group.add(bar);
+            }
+            return group;
+        }
+
+        // Slide-specific visuals
+        const slideGroups = new Map(); // slideId -> group
+        const slideUpdaters = new Map(); // slideId -> update fn
+
+        function ensureSlideGroup(slideId) {
+            if (slideGroups.has(slideId)) return slideGroups.get(slideId);
+
+            const group = new THREE.Group();
+            group.visible = false;
+            group.userData.appear = 0;
+            group.userData.targetAppear = 0;
+            group.userData.anchor = { x: 7.5, y: 0.4, z: -1.2 }; // further right of slides
+
+            // Default updater (can be overridden)
+            slideUpdaters.set(slideId, (t, pointer) => {
+                const speed = prefersReducedMotion ? 0 : 1;
+                group.rotation.y = 0.25 * Math.sin(t * 0.6) * speed + pointer.x * 0.12;
+                group.rotation.x = 0.12 * Math.cos(t * 0.5) * speed + pointer.y * 0.08;
+            });
+
+            // Build a distinct visual per slide
+            switch (String(slideId)) {
+                case '0': {
+                    // Intro: app-to-card vibe + orbiting "grocery" spheres
+                    const card = createCardMesh(3.4, 2.2, 0.16, 'primary');
+                    card.rotation.x = -0.18;
+                    card.rotation.y = 0.35;
+                    group.add(card);
+                    const orbGeo = new THREE.SphereGeometry(0.22, 24, 24);
+                    const orbMats = [makeMaterial('glass'), makeMaterial('accent')];
+                    const orbiters = new THREE.Group();
+                    for (let i = 0; i < 8; i++) {
+                        const o = new THREE.Mesh(orbGeo, orbMats[i % orbMats.length]);
+                        o.position.set(Math.cos(i) * 2.0, Math.sin(i * 1.3) * 1.2, (Math.random() - 0.5) * 0.6);
+                        orbiters.add(o);
+                    }
+                    group.add(orbiters);
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        orbiters.rotation.y = t * 0.65 * speed;
+                        orbiters.rotation.x = t * 0.35 * speed;
+                        card.rotation.y = 0.35 + Math.sin(t * 0.55) * 0.18 * speed + pointer.x * 0.12;
+                        card.rotation.x = -0.18 + Math.cos(t * 0.45) * 0.10 * speed + pointer.y * 0.08;
+                    });
+                    break;
+                }
+                case '1': {
+                    // Brand & challenge: card + question "knot"
+                    const card = createCardMesh(3.2, 2.0, 0.14, 'glass');
+                    card.rotation.y = -0.35;
+                    group.add(card);
+                    const knot = new THREE.Mesh(
+                        new THREE.TorusKnotGeometry(0.65, 0.18, 120, 16),
+                        makeMaterial('primary')
+                    );
+                    knot.position.set(-0.8, 0.2, 0.9);
+                    group.add(knot);
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        knot.rotation.x = t * 0.9 * speed;
+                        knot.rotation.y = t * 0.75 * speed;
+                        group.rotation.y = pointer.x * 0.14;
+                        group.rotation.x = pointer.y * 0.1;
+                    });
+                    break;
+                }
+                case '2': {
+                    // Persona: friendly "avatar" + halo
+                    const head = new THREE.Mesh(new THREE.SphereGeometry(0.75, 32, 32), makeMaterial('primary'));
+                    const body = new THREE.Mesh(new THREE.SphereGeometry(1.0, 32, 32), makeMaterial('glass'));
+                    body.scale.set(1.1, 0.85, 0.9);
+                    body.position.set(0, -1.0, 0);
+                    const halo = new THREE.Mesh(new THREE.TorusGeometry(1.15, 0.08, 12, 40), makeMaterial('accent'));
+                    halo.rotation.x = Math.PI / 2;
+                    halo.position.set(0, 0.2, 0.2);
+                    group.add(head, body, halo);
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        halo.rotation.z = t * 0.7 * speed;
+                        head.position.y = 0.05 * Math.sin(t * 1.3) * speed;
+                        group.rotation.y = pointer.x * 0.12;
+                        group.rotation.x = pointer.y * 0.08;
+                    });
+                    break;
+                }
+                case '3': {
+                    // Objectives: 3D bars + ring
+                    const bars = createBars();
+                    bars.position.set(0.2, -1.2, 0);
+                    group.add(bars);
+                    const ring = new THREE.Mesh(new THREE.TorusGeometry(1.45, 0.1, 12, 64), makeMaterial('primary'));
+                    ring.rotation.x = Math.PI / 2.2;
+                    ring.position.set(-0.3, 0.4, 0.4);
+                    group.add(ring);
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        bars.children.forEach((b, i) => {
+                            b.rotation.y = (t * 0.5 + i) * 0.4 * speed;
+                        });
+                        ring.rotation.z = t * 0.55 * speed;
+                        group.rotation.y = pointer.x * 0.12;
+                        group.rotation.x = pointer.y * 0.08;
+                    });
+                    break;
+                }
+                case '4': {
+                    // Strategy: "message house" (roof + base)
+                    const base = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.6, 0.55), makeMaterial('glass'));
+                    base.position.set(0, -0.55, 0);
+                    const roof = new THREE.Mesh(new THREE.ConeGeometry(1.55, 1.0, 4, 1), makeMaterial('primary'));
+                    roof.rotation.y = Math.PI / 4;
+                    roof.position.set(0, 0.55, 0);
+                    const door = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.85, 0.12), makeMaterial('accent'));
+                    door.position.set(0, -0.9, 0.35);
+                    group.add(base, roof, door);
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        group.rotation.y = 0.15 * Math.sin(t * 0.6) * speed + pointer.x * 0.12;
+                        group.rotation.x = 0.08 * Math.cos(t * 0.5) * speed + pointer.y * 0.08;
+                    });
+                    break;
+                }
+                case '5': {
+                    // PESO: 4 floating tiles
+                    const tileGeo = new THREE.BoxGeometry(1.05, 0.75, 0.18);
+                    const tileMats = [makeMaterial('primary'), makeMaterial('glass'), makeMaterial('accent'), makeMaterial('glass')];
+                    const tiles = [];
+                    const positions = [
+                        [-0.65, 0.5, 0],
+                        [0.65, 0.5, 0],
+                        [-0.65, -0.5, 0],
+                        [0.65, -0.5, 0]
+                    ];
+                    for (let i = 0; i < 4; i++) {
+                        const tMesh = new THREE.Mesh(tileGeo, tileMats[i]);
+                        tMesh.position.set(...positions[i]);
+                        tMesh.rotation.y = (i % 2 ? 0.2 : -0.2);
+                        tiles.push(tMesh);
+                        group.add(tMesh);
+                    }
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        tiles.forEach((m, i) => {
+                            m.position.z = 0.12 * Math.sin(t * 1.1 + i) * speed;
+                            m.rotation.x = 0.08 * Math.cos(t * 0.9 + i) * speed;
+                        });
+                        group.rotation.y = pointer.x * 0.14;
+                        group.rotation.x = pointer.y * 0.1;
+                    });
+                    break;
+                }
+                case '6': {
+                    // Calendar highlights: calendar plate + pin
+                    const plate = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.8, 0.22), makeMaterial('glass'));
+                    const header = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.35, 0.24), makeMaterial('primary'));
+                    header.position.set(0, 0.72, 0.05);
+                    const pin = new THREE.Mesh(new THREE.ConeGeometry(0.25, 0.7, 24, 1), makeMaterial('accent'));
+                    pin.rotation.x = Math.PI;
+                    pin.position.set(0.65, 0.15, 0.25);
+                    group.add(plate, header, pin);
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        pin.position.y = 0.15 + 0.08 * Math.sin(t * 1.6) * speed;
+                        group.rotation.y = 0.18 * Math.sin(t * 0.5) * speed + pointer.x * 0.12;
+                        group.rotation.x = pointer.y * 0.08;
+                    });
+                    break;
+                }
+                case '7': {
+                    // Key visual prompts: spotlight cone + card
+                    const card = createCardMesh(3.0, 1.9, 0.12, 'primary');
+                    card.rotation.y = 0.35;
+                    const cone = new THREE.Mesh(new THREE.ConeGeometry(1.6, 3.2, 32, 1, true), new THREE.MeshPhysicalMaterial({
+                        color: colors.accent,
+                        roughness: 0.3,
+                        metalness: 0.0,
+                        transmission: 0.6,
+                        transparent: true,
+                        opacity: 0.25,
+                        side: THREE.DoubleSide,
+                        depthWrite: false
+                    }));
+                    cone.position.set(0.4, 1.3, -0.2);
+                    cone.rotation.x = Math.PI;
+                    group.add(card, cone);
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        cone.rotation.z = 0.15 * Math.sin(t * 0.9) * speed;
+                        card.rotation.y = 0.35 + Math.sin(t * 0.6) * 0.15 * speed + pointer.x * 0.12;
+                        group.rotation.x = pointer.y * 0.08;
+                    });
+                    break;
+                }
+                case '8': {
+                    // Creators: 3 profile tiles orbit
+                    const tileGeo = new THREE.BoxGeometry(1.0, 1.2, 0.18);
+                    const mats = [makeMaterial('primary'), makeMaterial('glass'), makeMaterial('accent')];
+                    const tiles = [];
+                    for (let i = 0; i < 3; i++) {
+                        const m = new THREE.Mesh(tileGeo, mats[i]);
+                        m.position.set((i - 1) * 1.2, (i === 1 ? 0.2 : -0.15), i * 0.12);
+                        tiles.push(m);
+                        group.add(m);
+                    }
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        tiles.forEach((m, i) => {
+                            m.rotation.y = (t * 0.5 + i) * 0.55 * speed;
+                            m.position.y = (i === 1 ? 0.2 : -0.15) + 0.08 * Math.sin(t * 1.2 + i) * speed;
+                        });
+                        group.rotation.y = pointer.x * 0.14;
+                        group.rotation.x = pointer.y * 0.1;
+                    });
+                    break;
+                }
+                case '9': {
+                    // Onboarding: 3 nodes connected
+                    const nodeGeo = new THREE.SphereGeometry(0.35, 24, 24);
+                    const n1 = new THREE.Mesh(nodeGeo, makeMaterial('primary'));
+                    const n2 = new THREE.Mesh(nodeGeo, makeMaterial('accent'));
+                    const n3 = new THREE.Mesh(nodeGeo, makeMaterial('glass'));
+                    n1.position.set(-1.4, 0.25, 0);
+                    n2.position.set(0, -0.1, 0);
+                    n3.position.set(1.4, 0.25, 0);
+                    const lineMat = new THREE.LineBasicMaterial({ color: 0xb2288e, transparent: true, opacity: 0.35 });
+                    const lineGeo = new THREE.BufferGeometry().setFromPoints([n1.position, n2.position, n3.position]);
+                    const path = new THREE.Line(lineGeo, lineMat);
+                    group.add(path, n1, n2, n3);
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        const pulse = 0.12 * Math.sin(t * 2.0) * speed;
+                        n2.scale.setScalar(1 + pulse);
+                        group.rotation.y = pointer.x * 0.12;
+                        group.rotation.x = pointer.y * 0.08;
+                    });
+                    break;
+                }
+                case '10': {
+                    // Community: chat bubbles
+                    const bubble1 = createCardMesh(2.3, 1.4, 0.12, 'glass');
+                    const bubble2 = createCardMesh(2.0, 1.2, 0.12, 'primary');
+                    bubble1.position.set(-0.35, 0.25, 0);
+                    bubble2.position.set(0.65, -0.35, 0.2);
+                    bubble2.rotation.z = 0.08;
+                    group.add(bubble1, bubble2);
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        bubble1.position.y = 0.25 + 0.08 * Math.sin(t * 1.1) * speed;
+                        bubble2.position.y = -0.35 + 0.08 * Math.cos(t * 1.2) * speed;
+                        group.rotation.y = pointer.x * 0.14;
+                        group.rotation.x = pointer.y * 0.1;
+                    });
+                    break;
+                }
+                case '11': {
+                    // Measurement & finance: chart + coins
+                    const bars = createBars();
+                    bars.scale.set(0.85, 0.85, 0.85);
+                    bars.position.set(-0.4, -1.0, 0);
+                    const coins = createCoinStack();
+                    coins.position.set(1.4, -0.9, 0.2);
+                    group.add(bars, coins);
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        coins.rotation.z = t * 0.7 * speed;
+                        bars.children.forEach((b, i) => (b.rotation.y = (t * 0.5 + i) * 0.55 * speed));
+                        group.rotation.y = pointer.x * 0.12;
+                        group.rotation.x = pointer.y * 0.08;
+                    });
+                    break;
+                }
+                case '12': {
+                    // Risks & ethics: shield/lock
+                    const shield = createShield();
+                    group.add(shield);
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        shield.rotation.y = t * 0.45 * speed + pointer.x * 0.12;
+                        shield.rotation.x = 0.12 * Math.sin(t * 0.7) * speed + pointer.y * 0.08;
+                    });
+                    break;
+                }
+                case 'lp': {
+                    // Landing Page: 3D Laptop/Browser frame
+                    const laptopBase = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.1, 1.8), makeMaterial('primary'));
+                    laptopBase.position.y = -1.0;
+                    const screenGeo = new THREE.BoxGeometry(2.8, 1.8, 0.1);
+                    const screenFrame = new THREE.Mesh(screenGeo, makeMaterial('accent'));
+                    screenFrame.position.set(0, 0.2, -0.9);
+                    screenFrame.rotation.x = 0.2; // slight tilt
+
+                    // Simple "webpage" planes inside
+                    const page = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.4), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+                    page.position.set(0, 0.2, -0.84);
+                    page.rotation.x = 0.2;
+
+                    group.add(laptopBase, screenFrame, page);
+
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        group.rotation.y = 0.15 * Math.sin(t * 0.5) * speed + pointer.x * 0.1;
+                        group.rotation.x = pointer.y * 0.05;
+                    });
+                    break;
+                }
+                default: {
+                    // Fallback (shouldn't happen with current slides)
+                    const blob = new THREE.Mesh(new THREE.IcosahedronGeometry(1.4, 1), makeMaterial('primary'));
+                    group.add(blob);
+                }
+            }
+
+            applyAnchor(group, group.userData.anchor);
+            scene.add(group);
+            slideGroups.set(slideId, group);
+            return group;
+        }
+
+        let activeSlideId = null;
+
+        function setActiveSlideVisual(slideId) {
+            activeSlideId = slideId;
+
+            // Ensure all groups exist so "every slide" truly has one.
+            slides.forEach((s) => ensureSlideGroup(s.dataset.id));
+
+            slideGroups.forEach((g, id) => {
+                const isActive = String(id) === String(slideId);
+                g.visible = true;
+                g.userData.targetAppear = isActive ? 1 : 0;
+                if (isActive) {
+                    g.userData.appear = 1;
+                    g.scale.setScalar(1);
+                }
+            });
+        }
+
+        const pointer = { x: 0, y: 0 };
+        window.addEventListener('pointermove', (e) => {
+            const nx = (e.clientX / window.innerWidth) * 2 - 1;
+            const ny = -((e.clientY / window.innerHeight) * 2 - 1);
+            pointer.x = nx;
+            pointer.y = ny;
+        }, { passive: true });
+
+        function resize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        window.addEventListener('resize', resize);
+
+        let running = true;
+        document.addEventListener('visibilitychange', () => {
+            running = document.visibilityState === 'visible';
+        });
+
+        const clock = new THREE.Clock();
+        function tick() {
+            requestAnimationFrame(tick);
+            if (!running) return;
+
+            const dt = Math.min(clock.getDelta(), 0.05);
+            const t = clock.getElapsedTime();
+
+            // Background bubbles always animate (this brings back your old vibe).
+            if (!prefersReducedMotion) {
+                bubbleFieldPurple.update(dt, t);
+                bubbleFieldMint.update(dt, t + 0.8);
+            }
+
+            // Smooth appear / disappear
+            slideGroups.forEach((g, id) => {
+                const speed = prefersReducedMotion ? 0.08 : 0.12;
+                g.userData.appear += (g.userData.targetAppear - g.userData.appear) * speed;
+                const s = 0.75 + 0.25 * g.userData.appear;
+                g.scale.setScalar(s);
+
+                // Hide groups when fully faded out
+                if (String(id) !== String(activeSlideId) && g.userData.appear < 0.02) {
+                    g.visible = false;
+                } else {
+                    g.visible = true;
+                }
+            });
+
+            // Only update the active visual (and keep others cheap)
+            if (activeSlideId != null) {
+                const updater = slideUpdaters.get(activeSlideId);
+                const g = slideGroups.get(activeSlideId);
+                if (g && updater) updater(t, pointer);
+            }
+
+            renderer.render(scene, camera);
+        }
+        tick();
+
+        /* Navigation Logic */
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const currentSpan = document.getElementById('current');
+        let currentIndex = 0;
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentIndex) slide.classList.add('active');
+            });
+            currentSpan.textContent = currentIndex; // 0 is Intro
+
+            const slideEl = slides[currentIndex];
+            if (slideEl && slideEl.dataset && slideEl.dataset.id != null) {
+                setActiveSlideVisual(slideEl.dataset.id);
+            }
+        }
+
+        // Initialize per-slide 3D visuals on load (after layout)
+        setTimeout(() => {
+            setActiveSlideVisual(slides[currentIndex]?.dataset?.id ?? '0');
+            resize();
+        }, 50);
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < slides.length - 1) {
+                currentIndex++;
+                updateSlides();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlides();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextBtn.click();
+            if (e.key === 'ArrowLeft') prevBtn.click();
+        });
+    </script>
+</body>
+
+</html>
