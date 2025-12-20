@@ -271,6 +271,345 @@
             max-width: 70%;
             z-index: 50;
         }
+
+        .calendar-row {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .calendar-row:hover {
+            background-color: var(--secondary) !important;
+        }
+
+        /* Preview Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 10px;
+            border-radius: 24px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 90vh;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-image {
+            display: block;
+            height: 80vh;
+            width: auto;
+            border-radius: 16px;
+            object-fit: cover;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 3px solid white;
+            z-index: 10;
+        }
+
+        .modal-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            font-size: 1.5rem;
+            color: var(--primary);
+            transition: all 0.2s;
+            z-index: 5;
+            user-select: none;
+        }
+
+        .modal-arrow:hover {
+            background: var(--primary);
+            color: white;
+            scale: 1.1;
+        }
+
+        .modal-arrow.left {
+            left: -70px;
+        }
+
+        .modal-arrow.right {
+            right: -70px;
+        }
+
+        .modal-info {
+            padding: 15px 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .modal-info h4 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .modal-info p {
+            margin: 5px 0 0 0;
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 900px) {
+            .modal-arrow.left {
+                left: 10px;
+                background: rgba(255, 255, 255, 0.7);
+            }
+
+            .modal-arrow.right {
+                right: 10px;
+                background: rgba(255, 255, 255, 0.7);
+            }
+
+            .modal-image {
+                height: 60vh;
+                width: auto;
+                max-width: 80vw;
+            }
+        }
+
+        /* Landing Page Flow Modal & Dashboard Enhancements */
+        .flow-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 15000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flow-modal.active {
+            display: flex;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .flow-content {
+            background: #fff;
+            width: 95%;
+            max-width: 900px;
+            padding: 3rem;
+            border-radius: 24px;
+            position: relative;
+            color: #1a1a2e;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Mockup Bento Grid */
+        .feature-bento {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            padding: 3rem 2rem;
+        }
+
+        .bento-item {
+            background: #f8f9fa;
+            padding: 2.5rem 2rem;
+            border-radius: 24px;
+            border: 1px solid #eee;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .bento-item:hover {
+            transform: translateY(-10px);
+            background: #fff;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+            border-color: var(--primary);
+        }
+
+        .bento-icon {
+            font-size: 2.5rem;
+        }
+
+        /* Rewards Cards */
+        .rewards-tier {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 2rem;
+            scrollbar-width: none;
+            justify-content: center;
+        }
+
+        .tier-card {
+            min-width: 180px;
+            padding: 2rem;
+            border-radius: 24px;
+            text-align: center;
+            border: 1px solid #eee;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .tier-card.active {
+            border-color: var(--primary);
+            background: #fffafb;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(181, 23, 158, 0.1);
+        }
+
+        /* Dashboard Layout */
+        /* Refined Dashboard Layout */
+        .lp-dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            height: auto;
+            align-items: stretch;
+        }
+
+        .lp-sidebar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .analytics-console {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 220px;
+            background: rgba(10, 10, 30, 0.85);
+            backdrop-filter: blur(6px);
+            color: #00ff88;
+            padding: 1rem;
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+            pointer-events: none;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .ping {
+            border-left: 2px solid #00ff88;
+            padding-left: 8px;
+            opacity: 0;
+            animation: pingIn 0.3s forwards;
+        }
+
+        @keyframes pingIn {
+            to {
+                opacity: 1;
+                transform: translateX(5px);
+            }
+        }
+
+        .lp-mockup-fullscreen {
+            position: fixed !important;
+            top: 20px !important;
+            left: 20px !important;
+            right: 20px !important;
+            bottom: 20px !important;
+            width: auto !important;
+            height: auto !important;
+            z-index: 15000 !important;
+            border-radius: 28px !important;
+            background: white !important;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        .lp-mockup-fullscreen #lpScrollContent {
+            height: calc(100vh - 120px) !important;
+        }
+
+        @keyframes pingFade {
+            0% {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            10% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+        }
+
+        .lp-mockup-fullscreen {
+            position: fixed !important;
+            top: 20px !important;
+            left: 20px !important;
+            right: 20px !important;
+            bottom: 20px !important;
+            z-index: 2100 !important;
+            height: auto !important;
+            margin: 0 !important;
+        }
+
+        .lp-mockup-fullscreen #lpScrollContent {
+            height: calc(100% - 45px) !important;
+        }
     </style>
 </head>
 
@@ -735,24 +1074,6 @@
             </div>
         </div>
 
-        <!-- NEW Step 4B: Product Features -->
-        <div class="slide" data-id="4b">
-            <span class="step-tag">Step 4B</span>
-            <h2> The Product Ecosystem</h2>
-            <div class="grid-2">
-                <div class="floating-card">
-                    <h3>Feature: "The Student Card"</h3>
-                    <p>Linked to Mom's main account. Limits set by her.</p>
-                    <p><em>Solves:</em> Mom's need for control + Gen Z's need for independence.</p>
-                </div>
-                <div class="floating-card">
-                    <h3>The "Adulting" Education</h3>
-                    <p>App acts as a "Financial Coach".</p>
-                    <p><em>Visual:</em> "You spent EGP 400 on coffee this month." (Data-driven insights for Gen Z).</p>
-                </div>
-            </div>
-            <div class="citation">Sources: Product Requirements Document (2025).</div>
-        </div>
 
         <!-- Step 5 -->
         <div class="slide" data-id="5">
@@ -797,31 +1118,6 @@
             <div class="citation">Sources: Misr Connect (2024); Cairo 360 (2024).</div>
         </div>
 
-        <!-- NEW Step 5B: Earned Media -->
-        <div class="slide" data-id="earned">
-            <span class="step-tag">Step 5B</span>
-            <h2>Earned Media Strategy (PR)</h2>
-            <div class="grid-2">
-                <div class="floating-card">
-                    <h3>The Tech Angle</h3>
-                    <p><strong>Target:</strong> Enterprise, Daily News.</p>
-                    <p><em>Hook:</em> "The Super-App Puzzle Complete." <br>Breadfast closes the loop: Logistics +
-                        Fintech.</p>
-                </div>
-                <div class="floating-card">
-                    <h3>The Consumer Angle</h3>
-                    <p><strong>Target:</strong> Youm7, Masrawy, Lifestyle Portals.</p>
-                    <p><em>Hook:</em> "The Inflation Shield." <br>How a grocery app helps Egyptian families save EGP
-                        500/month.</p>
-                </div>
-            </div>
-            <div class="floating-card" style="margin-top: 1rem; border-left: 5px solid var(--primary);">
-                <h3>Press Release Headline</h3>
-                <p style="font-size: 1.2rem; font-weight: bold;">"Breadfast Launches 'Family Wallet' to Combat
-                    Inflation: One App, Two Lifestyles."</p>
-            </div>
-            <div class="citation">Sources: Meltwater (2025).</div>
-        </div>
 
         <!-- Step 6 -->
         <div class="slide" data-id="6">
@@ -839,49 +1135,49 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr class="calendar-row" data-image="assets/calendar/day1.png">
                             <td><strong>Day 1</strong></td>
                             <td>Facebook / TikTok</td>
                             <td>Split screen "When you pay with cash vs with Breadfast Pay"</td>
                             <td>20s Video + captions</td>
                             <td>Content Creator #1</td>
                         </tr>
-                        <tr>
+                        <tr class="calendar-row" data-image="assets/calendar/day2.png">
                             <td><strong>Day 2</strong></td>
                             <td>Instagram</td>
                             <td>"Girl Math = Coffee is free"</td>
                             <td>30s Reel</td>
                             <td>Influencer</td>
                         </tr>
-                        <tr>
+                        <tr class="calendar-row" data-image="assets/calendar/day3.png">
                             <td><strong>Day 3</strong></td>
                             <td>Facebook</td>
                             <td>Financial parenting guide</td>
                             <td>60s Video</td>
                             <td>Brand</td>
                         </tr>
-                        <tr>
+                        <tr class="calendar-row" data-image="assets/calendar/day5.png">
                             <td><strong>Day 5</strong></td>
                             <td>Email</td>
                             <td>"Last Chance" for 20% Off with Breadfast Pay</td>
                             <td>Countdown visual + CTA</td>
                             <td>Brand</td>
                         </tr>
-                        <tr>
+                        <tr class="calendar-row" data-image="assets/calendar/day8.png">
                             <td><strong>Day 8</strong></td>
                             <td>IG Live</td>
                             <td>Q&A with Breadfast team member</td>
                             <td>"Q&A with our Breadfast Expert" promo</td>
                             <td>Team member</td>
                         </tr>
-                        <tr>
+                        <tr class="calendar-row" data-image="assets/calendar/day12.png">
                             <td><strong>Day 12</strong></td>
                             <td>Instagram Stories</td>
                             <td>"Treat Yourself Tuesday" (Cashback)</td>
                             <td>Graphics + CTA (Claim Cashback)</td>
                             <td>Brand</td>
                         </tr>
-                        <tr>
+                        <tr class="calendar-row" data-image="assets/calendar/day14.png">
                             <td><strong>Day 14</strong></td>
                             <td>Instagram / TikTok</td>
                             <td>"Shared Moments" / "What They're Saying"</td>
@@ -978,206 +1274,271 @@
             <div class="citation">Sources: Misr Connect (2024); Cairo 360 (2024).</div>
         </div>
 
-        <!-- Step 8 -->
+        <!-- Step 8: Landing Page Dashboard -->
         <div class="slide" data-id="lp">
             <span class="step-tag">Step 8</span>
-            <h2>Landing Page / Conversion Path</h2>
+            <h2>Landing Page / Strategic Conversion</h2>
 
-            <div class="grid-2" style="gap: 1.5rem; align-items: start;">
-                <!-- Left: Strategy & Tracking -->
-                <div>
-                    <div class="floating-card" style="background: var(--secondary); margin-bottom: 1rem;">
-                        <h3 style="margin: 0 0 0.5rem 0;">🎯 Wireframe Strategy</h3>
-                        <p style="font-size: 0.85rem; margin: 0;">Bridging Moms & Gen Z with a streamlined flow that
-                            works for both demographics.</p>
-                    </div>
-
-                    <div class="floating-card" style="margin-bottom: 1rem;">
-                        <h4 style="margin: 0 0 0.5rem 0; color: var(--primary);">Landing Page Flow</h4>
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span
-                                    style="background: var(--primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0;">1</span>
-                                <span><strong>Hero:</strong> "Fuel Your Home & Your Day" + 10% Cashback</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span
-                                    style="background: var(--primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0;">2</span>
-                                <span><strong>Proof:</strong> Influencer testimonials</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span
-                                    style="background: var(--primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0;">3</span>
-                                <span><strong>Routine:</strong> Mom Loads → Teen Spends → Both Earn</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span
-                                    style="background: var(--primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0;">4</span>
-                                <span><strong>CTA:</strong> "Join the Family" / WhatsApp Share</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="floating-card" style="margin-bottom: 1rem;">
-                        <h4 style="margin: 0 0 0.5rem 0;">📊 Tracking (GA4 + Firebase)</h4>
-                        <div
-                            style="font-size: 0.8rem; font-family: monospace; background: #1a1a2e; color: #27ae60; padding: 0.8rem; border-radius: 8px;">
-                            <div>• <span style="color: #3498db;">view_item</span> → Page Load</div>
-                            <div>• <span style="color: #FDCB6E;">select_content</span> → Download Click</div>
-                            <div>• <span style="color: #e74c3c;">generate_lead</span> → Registration</div>
-                        </div>
-                    </div>
-
-                    <div class="floating-card">
-                        <h4 style="margin: 0 0 0.5rem 0;">🔗 UTM Structure</h4>
-                        <div
-                            style="font-size: 0.7rem; font-family: monospace; background: #f5f5f5; padding: 0.6rem; border-radius: 6px; word-break: break-all;">
-                            ?utm_source=<span style="color: var(--primary);">tiktok</span>&utm_medium=<span
-                                style="color: var(--primary);">influencer</span>&utm_campaign=<span
-                                style="color: var(--primary);">family_wallet</span>&utm_content=<span
-                                style="color: var(--primary);">gen_z_coffee</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right: Interactive Landing Page Mockup -->
-                <div>
+            <div class="lp-dashboard">
+                <!-- Top: Full-Width Mockup -->
+                <div style="width: 100%; position: relative;">
                     <div id="lpMockupContainer"
-                        style="background: #fff; border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); border: 1px solid #ddd; overflow: hidden; position: relative;">
+                        style="background: #fff; border-radius: 28px; box-shadow: 0 40px 100px rgba(0,0,0,0.15); border: 1px solid #eef0f2; overflow: hidden; position: relative; width: 100%;">
+
                         <!-- Browser Bar -->
                         <div
-                            style="background: #e0e0e0; padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.8rem;">
-                            <div style="display: flex; gap: 0.4rem;">
-                                <div style="width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></div>
-                                <div style="width: 10px; height: 10px; border-radius: 50%; background: #ffbd2e;"></div>
+                            style="background: #f8f9fa; padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1.5rem; border-bottom: 1px solid #edeef0;">
+                            <div style="display: flex; gap: 0.6rem;">
+                                <div style="width: 14px; height: 14px; border-radius: 50%; background: #ff5f57;"></div>
+                                <div style="width: 14px; height: 14px; border-radius: 50%; background: #ffbd2e;"></div>
                                 <div id="lpFullscreenBtn" onclick="toggleLPFullscreen()"
-                                    style="width: 10px; height: 10px; border-radius: 50%; background: #28c940; cursor: pointer;"
+                                    style="width: 14px; height: 14px; border-radius: 50%; background: #28c940; cursor: pointer;"
                                     title="Toggle Fullscreen"></div>
                             </div>
                             <div
-                                style="flex: 1; background: #fff; padding: 0.3rem 0.6rem; border-radius: 6px; font-family: monospace; font-size: 0.75rem; color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border: 1px solid #ccc;">
-                                🔒 breadfast.com/pay-family
+                                style="flex: 1; background: #fff; padding: 0.5rem 1.2rem; border-radius: 12px; font-family: 'Outfit', sans-serif; font-size: 0.85rem; color: #6e7c8a; border: 1px solid #e1e4e8; display: flex; align-items: center; gap: 0.6rem;">
+                                <span style="color: #27ae60;">🔒</span> breadfast.com/pay-family<span
+                                    style="color: #a0aec0; font-size: 0.75rem;">?utm_source=tiktok...</span>
                             </div>
                         </div>
 
                         <!-- Scrollable Landing Page Content -->
-                        <div id="lpScrollContent"
-                            style="height: 350px; overflow-y: auto; background: #000; color: #fff;">
-                            <!-- Hero Section -->
-                            <div
-                                style="position: relative; min-height: 280px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 2rem;">
-                                <video autoplay loop muted playsinline
-                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5;">
+                        <div id="lpScrollContent" style="height: 450px; overflow-y: auto; background: #fff;"
+                            onscroll="handleLPScroll()">
+
+                            <!-- Tracking Console Overlay -->
+                            <div id="analyticsConsole" class="analytics-console">
+                                <div
+                                    style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px; margin-bottom: 4px;">
+                                    <span style="letter-spacing: 1px;">⚡ GA4 LIVE</span>
+                                    <span style="color: #f1c40f;">•</span>
+                                </div>
+                            </div>
+
+                            <!-- [RESTORE] Hero Section with Video -->
+                            <div id="lpHero"
+                                style="position: relative; height: 350px; display: flex; align-items: center; justify-content: center; text-align: center; color: white; overflow: hidden;">
+                                <video id="lpHeroVideo" autoplay loop muted playsinline
+                                    style="position: absolute; top: -10%; left: 0; width: 100%; height: 120%; object-fit: cover; opacity: 0.6; will-change: transform;">
                                     <source
                                         src="https://pay.breadfast.com/wp-content/uploads/2025/10/card-video.mp4#t=0,100"
                                         type="video/mp4">
                                 </video>
-                                <div style="position: relative; z-index: 2;">
+                                <div
+                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(26, 26, 46, 0.4) 0%, rgba(26, 26, 46, 0.8) 100%);">
+                                </div>
+                                <div style="position: relative; z-index: 2; padding: 2rem;">
                                     <img src="https://pay.breadfast.com/wp-content/uploads/2025/07/Breadfast-Pay-Mark-Full.png"
                                         alt="Breadfast Pay"
-                                        style="height: 35px; margin-bottom: 1rem; filter: brightness(0) invert(1);">
+                                        style="height: 40px; margin-bottom: 1.5rem; filter: brightness(0) invert(1);">
                                     <h1
-                                        style="font-size: 1.5rem; margin: 0 0 0.3rem 0; text-shadow: 0 4px 20px rgba(0,0,0,0.5);">
-                                        Fuel Your Home & Your Day</h1>
-                                    <p style="font-size: 0.95rem; margin: 0 0 0.5rem 0; opacity: 0.9;">One Wallet. Two
-                                        Lifestyles.</p>
+                                        style="font-size: 2.2rem; margin: 0 0 1rem 0; font-weight: 800; line-height: 1.1; text-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+                                        Your Morning Coffee.<br><span style="color: var(--accent);">Your Family's
+                                            Future.</span></h1>
+                                    <button onclick="logAnalyticsEvent('select_content (Hero CTA)')"
+                                        style="background: white; color: var(--primary); padding: 1rem 2.5rem; border-radius: 50px; font-weight: 800; border: none; font-size: 1rem; cursor: pointer; transition: transform 0.2s; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">Get
+                                        Started Free</button>
+                                </div>
+                            </div>
+
+                            <!-- [NEW] Partners Bar -->
+                            <div
+                                style="background: #fcfcfc; padding: 2.5rem; border-bottom: 1px solid #f0f0f0; text-align: center;">
+                                <p
+                                    style="font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.5rem; font-weight: 600;">
+                                    Trusted by 50,000+ Egyptian Households</p>
+                                <div
+                                    style="display: flex; justify-content: center; gap: 4rem; opacity: 0.5; filter: grayscale(1); align-items: center;">
                                     <div
-                                        style="background: #27ae60; display: inline-block; padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: bold;">
-                                        🎉 Get 10% Cashback</div>
-                                </div>
-                            </div>
-
-                            <!-- Social Proof Section -->
-                            <div style="background: #f9f9f9; color: #333; padding: 1.5rem;">
-                                <h3 style="text-align: center; margin: 0 0 1rem 0; font-size: 1rem;">💬 What Families
-                                    Say</h3>
-                                <div
-                                    style="background: white; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--primary); margin-bottom: 0.8rem;">
-                                    <p style="font-style: italic; margin: 0 0 0.5rem 0; font-size: 0.85rem;">"I control
-                                        the budget, he gets his coffee."</p>
-                                    <p style="margin: 0; font-size: 0.75rem; color: #666;">— @Daliaragheb_, Mom &
-                                        Influencer</p>
-                                </div>
-                                <div
-                                    style="background: white; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--accent);">
-                                    <p style="font-style: italic; margin: 0 0 0.5rem 0; font-size: 0.85rem;">"Finally,
-                                        cashback on my daily latte!"</p>
-                                    <p style="margin: 0; font-size: 0.75rem; color: #666;">— @Nourhan3mad_, Gen Z
-                                        Creator</p>
-                                </div>
-                            </div>
-
-                            <!-- How It Works Section -->
-                            <div style="background: #1a1a2e; color: white; padding: 1.5rem;">
-                                <h3 style="text-align: center; margin: 0 0 1rem 0; font-size: 1rem;">🔄 How It Works
-                                </h3>
-                                <div
-                                    style="display: flex; justify-content: space-around; text-align: center; font-size: 0.75rem;">
-                                    <div>
-                                        <div
-                                            style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-size: 1.5rem;">
-                                            👩</div>
-                                        <strong>Mom Loads</strong>
-                                        <p style="margin: 0.3rem 0 0 0; opacity: 0.8;">Add funds to wallet</p>
+                                        style="font-weight: 900; font-size: 1rem; font-family: sans-serif; letter-spacing: 1px;">
+                                        CENTRAL BANK OF EGYPT</div>
+                                    <div style="font-weight: 900; font-size: 1.4rem; font-family: sans-serif;">ADIB
                                     </div>
-                                    <div style="display: flex; align-items: center; font-size: 1.5rem; color: #666;">→
-                                    </div>
-                                    <div>
-                                        <div
-                                            style="width: 50px; height: 50px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-size: 1.5rem;">
-                                            ☕</div>
-                                        <strong>Teen Spends</strong>
-                                        <p style="margin: 0.3rem 0 0 0; opacity: 0.8;">Coffee & essentials</p>
-                                    </div>
-                                    <div style="display: flex; align-items: center; font-size: 1.5rem; color: #666;">→
-                                    </div>
-                                    <div>
-                                        <div
-                                            style="width: 50px; height: 50px; background: #27ae60; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-size: 1.5rem;">
-                                            💰</div>
-                                        <strong>Both Earn</strong>
-                                        <p style="margin: 0.3rem 0 0 0; opacity: 0.8;">Cashback rewards</p>
+                                    <div style="font-weight: 900; font-size: 1.4rem; font-family: sans-serif;">VISA
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- CTA Section -->
+                            <!-- [NEW] Feature Bento -->
+                            <div class="feature-bento" id="lpFeatures">
+                                <div class="bento-item" onmouseover="logAnalyticsEvent('view_item (Family Safety)')">
+                                    <div class="bento-icon">🔒</div>
+                                    <h4 style="margin: 0; font-size: 1.2rem;">Family Safeguards</h4>
+                                    <p style="margin: 0; font-size: 0.9rem; color: #666; line-height: 1.5;">Set daily
+                                        limits for your teens and track every piaster in real-time.</p>
+                                </div>
+                                <div class="bento-item" onmouseover="logAnalyticsEvent('view_item (Spend Analytics)')"
+                                    style="background: #fff; border: 1px solid var(--primary);">
+                                    <div class="bento-icon">📈</div>
+                                    <h4 style="margin: 0; font-size: 1.2rem; color: var(--primary);">Spend Smarter</h4>
+                                    <p style="margin: 0; font-size: 0.9rem; color: #666; line-height: 1.5;">Categorized
+                                        reports show you exactly where the home budget goes.</p>
+                                </div>
+                                <div class="bento-item" onmouseover="logAnalyticsEvent('view_item (Instant Rewards)')">
+                                    <div class="bento-icon">✨</div>
+                                    <h4 style="margin: 0; font-size: 1.2rem;">Instant Rewards</h4>
+                                    <p style="margin: 0; font-size: 0.9rem; color: #666; line-height: 1.5;">Earn
+                                        cashback on every grocery bag and every morning latte.</p>
+                                </div>
+                                <div class="bento-item" onmouseover="logAnalyticsEvent('view_item (Digital First)')"
+                                    style="background: var(--secondary); border: none;">
+                                    <div class="bento-icon">📱</div>
+                                    <h4 style="margin: 0; font-size: 1.2rem; color: var(--accent);">Digital First</h4>
+                                    <p style="margin: 0; font-size: 0.9rem; color: #666; line-height: 1.5;">No physical
+                                        card needed. Pay with your phone, anywhere Fawry is accepted.</p>
+                                </div>
+                            </div>
+
+                            <!-- [NEW] Rewards Tiers -->
+                            <div id="lpRewards"
+                                style="padding: 4rem 2rem; background: #fafafa; border-top: 1px solid #f0f0f0;">
+                                <h3
+                                    style="text-align: center; margin-bottom: 2.5rem; font-size: 1.5rem; font-weight: 800;">
+                                    The More You Load, The More You Earn</h3>
+                                <div class="rewards-tier">
+                                    <div class="tier-card" onmouseover="logAnalyticsEvent('view_item (Bronze Tier)')">
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🥉</div>
+                                        <h5 style="margin: 0; font-size: 1rem; color: #888;">Bronze</h5>
+                                        <p
+                                            style="font-size: 1.4rem; font-weight: 800; color: var(--primary); margin: 0.5rem 0;">
+                                            2% Back</p>
+                                        <p style="font-size: 0.75rem; color: #aaa; margin: 0;">Up to 500 EGP Load</p>
+                                    </div>
+                                    <div class="tier-card active"
+                                        onmouseover="logAnalyticsEvent('view_item (Silver Tier)')">
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🥈</div>
+                                        <h5 style="margin: 0; font-size: 1.1rem; color: var(--primary);">Silver</h5>
+                                        <p
+                                            style="font-size: 1.6rem; font-weight: 800; color: var(--primary); margin: 0.5rem 0;">
+                                            5% Back</p>
+                                        <span
+                                            style="font-size: 0.65rem; background: #27ae60; color: white; padding: 2px 8px; border-radius: 10px; font-weight: bold;">MOST
+                                            POPULAR</span>
+                                    </div>
+                                    <div class="tier-card" onmouseover="logAnalyticsEvent('view_item (Gold Tier)')">
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🥇</div>
+                                        <h5 style="margin: 0; font-size: 1rem; color: #888;">Gold</h5>
+                                        <p
+                                            style="font-size: 1.4rem; font-weight: 800; color: var(--primary); margin: 0.5rem 0;">
+                                            10% Back</p>
+                                        <p style="font-size: 0.75rem; color: #aaa; margin: 0;">Loaded 2000+ EGP</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- [NEW] How It Works 1-2-3 -->
+                            <div style="padding: 5rem 2rem; text-align: center; background: white;">
+                                <h3 style="font-size: 1.6rem; margin-bottom: 4rem; font-weight: 800;">Ready in 3 Simple
+                                    Steps</h3>
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem;">
+                                    <div>
+                                        <div
+                                            style="width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; font-weight: bold; font-size: 1.2rem; box-shadow: 0 10px 20px rgba(181, 23, 158, 0.2);">
+                                            1</div>
+                                        <h5 style="margin: 0 0 0.8rem 0; font-size: 1.1rem;">Download</h5>
+                                        <p style="font-size: 0.85rem; color: #888; line-height: 1.6;">Install the
+                                            Breadfast App on iOS or Android and create your account.</p>
+                                    </div>
+                                    <div>
+                                        <div
+                                            style="width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; font-weight: bold; font-size: 1.2rem; box-shadow: 0 10px 20px rgba(181, 23, 158, 0.2);">
+                                            2</div>
+                                        <h5 style="margin: 0 0 0.8rem 0; font-size: 1.1rem;">Link Family</h5>
+                                        <p style="font-size: 0.85rem; color: #888; line-height: 1.6;">Invite family
+                                            members and set individual spending allowances.</p>
+                                    </div>
+                                    <div>
+                                        <div
+                                            style="width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; font-weight: bold; font-size: 1.2rem; box-shadow: 0 10px 20px rgba(181, 23, 158, 0.2);">
+                                            3</div>
+                                        <h5 style="margin: 0 0 0.8rem 0; font-size: 1.1rem;">Spend & Earn</h5>
+                                        <p style="font-size: 0.85rem; color: #888; line-height: 1.6;">Every purchase
+                                            adds instant cashback to your family wallet balance.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- [NEW] Redesigned Footer -->
                             <div
-                                style="background: linear-gradient(135deg, var(--primary), #8e1c6d); padding: 1.5rem; text-align: center;">
-                                <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Ready to Join the Family?</h3>
-                                <button
-                                    style="background: white; color: var(--primary); padding: 0.8rem 2rem; border: none; border-radius: 50px; font-size: 0.9rem; font-weight: bold; cursor: pointer; margin-bottom: 0.8rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-                                    📲 Download App
-                                </button>
-                                <p style="margin: 0; font-size: 0.75rem; opacity: 0.9;">or</p>
-                                <a href="https://wa.me/?text=Mom%20check%20this%20out%20we%20can%20get%20cashback%20on%20groceries%20and%20my%20coffee%20https://breadfast.com/pay-family"
-                                    target="_blank"
-                                    style="display: inline-block; margin-top: 0.5rem; background: #25D366; color: white; padding: 0.5rem 1.2rem; border-radius: 50px; text-decoration: none; font-size: 0.8rem; font-weight: bold;">
-                                    💬 Share with Mom on WhatsApp
-                                </a>
-                            </div>
-
-                            <!-- Features Strip -->
-                            <div
-                                style="background: #f5f5f5; color: #333; padding: 1rem; display: flex; justify-content: space-around; font-size: 0.7rem; text-align: center;">
-                                <div><span style="display: block; font-size: 1.2rem;">👨‍👩‍👧‍👦</span>Family Cards
+                                style="background: #111122; color: white; padding: 5rem 2rem; text-align: center; border-top: 4px solid var(--accent);">
+                                <h3 style="font-size: 1.8rem; margin-bottom: 1.5rem; font-weight: 800;">Join the Future
+                                    of Family Finance</h3>
+                                <p
+                                    style="font-size: 1rem; opacity: 0.7; margin-bottom: 3rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                                    Start saving more on your daily essentials today. No credit check required.</p>
+                                <button onclick="logAnalyticsEvent('generate_lead (Final conversion)')"
+                                    style="background: var(--accent); color: white; padding: 1.2rem 4rem; border: none; border-radius: 50px; font-weight: bold; font-size: 1.2rem; cursor: pointer; margin-bottom: 3rem; box-shadow: 0 15px 40px rgba(181, 23, 158, 0.4); transition: transform 0.2s;">Create
+                                    Family Wallet Now</button>
+                                <div
+                                    style="display: flex; justify-content: center; gap: 3rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 3rem; font-size: 0.8rem; opacity: 0.5; font-weight: 500;">
+                                    <span>Privacy Policy</span>
+                                    <span>Terms of Service</span>
+                                    <span>Security</span>
+                                    <span>Contact Us</span>
                                 </div>
-                                <div><span style="display: block; font-size: 1.2rem;">☕</span>Coffee Perks</div>
-                                <div><span style="display: block; font-size: 1.2rem;">🛒</span>Grocery Cashback</div>
-                                <div><span style="display: block; font-size: 1.2rem;">🔒</span>Secure & Fast</div>
+                                <p style="margin-top: 3rem; font-size: 0.75rem; opacity: 0.3; font-family: monospace;">©
+                                    2025 Breadfast Pay. Licensed by the Central Bank of Egypt. All rights reserved.</p>
+                                <div
+                                    style="margin-top: 2rem; display: flex; justify-content: center; gap: 1rem; filter: grayscale(1) invert(1); opacity: 0.3;">
+                                    <div style="font-size: 1.5rem;">𝕏</div>
+                                    <div style="font-size: 1.5rem;">📸</div>
+                                    <div style="font-size: 1.5rem;">🎥</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <p style="text-align: center; font-size: 0.75rem; color: #888; margin-top: 0.5rem;">👆 Scroll to
-                        preview • Click green button for fullscreen</p>
+                </div>
+
+                <!-- Bottom: Strategy Row -->
+                <div class="lp-sidebar" style="margin-top: 2rem;">
+                    <!-- Card 1: Conversion -->
+                    <div class="floating-card"
+                        style="background: linear-gradient(135deg, var(--primary), #8e1c6d); color: white; border: none; margin-bottom: 0;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: white; font-size: 0.95rem;">🎯 Conversion Core</h4>
+                        <p style="font-size: 0.75rem; opacity: 0.9; line-height: 1.3; margin-bottom: 0.8rem;">
+                            Bridging trust and convenience in a single high-funnel experience.</p>
+                        <button onclick="openFlowModal()"
+                            style="width: 100%; padding: 0.6rem; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.75rem;">View
+                            Flow ➜</button>
+                    </div>
+
+                    <!-- Card 2: Events -->
+                    <div class="floating-card" style="margin-bottom: 0;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: var(--primary); font-size: 0.95rem;">📊 LIVE Pings
+                        </h4>
+                        <div
+                            style="font-size: 0.7rem; color: #666; display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;">
+                            <div style="display: flex; gap: 4px; align-items: center;"><span>• Hero</span> <span
+                                    style="color: #27ae60;">OK</span></div>
+                            <div style="display: flex; gap: 4px; align-items: center;"><span>• Bento</span> <span
+                                    style="color: #27ae60;">OK</span></div>
+                            <div style="display: flex; gap: 4px; align-items: center;"><span>• Tiers</span> <span
+                                    style="color: #27ae60;">OK</span></div>
+                            <div style="display: flex; gap: 4px; align-items: center;"><span>• Lead</span> <span
+                                    style="color: #27ae60;">OK</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: UTM Context -->
+                    <div class="floating-card" style="margin-bottom: 0;">
+                        <h4 style="margin: 0 0 0.5rem 0; font-size: 0.95rem;">🔗 UTM Context</h4>
+                        <div
+                            style="font-size: 0.65rem; font-family: monospace; background: #fcfcfc; padding: 0.5rem; border-radius: 6px; border: 1px solid #eee;">
+                            src: <span style="color: var(--primary);">tiktok</span> | med: <span
+                                style="color: var(--primary);">infl</span><br>
+                            cmp: <span style="color: var(--primary);">family_wallet</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="citation">Sources: GA4 Documentation; Firebase Analytics (2025).</div>
+            <div class="citation" style="margin-top: 2rem;">Sources: SceneNow (2025); Egypt Fintech Report (2025).
+            </div>
         </div>
 
         <script>
             let lpIsFullscreen = false;
+            let loggedEvents = new Set();
 
             function toggleLPFullscreen() {
                 const container = document.getElementById('lpMockupContainer');
@@ -1187,22 +1548,72 @@
                 lpIsFullscreen = !lpIsFullscreen;
 
                 if (lpIsFullscreen) {
-                    container.style.cssText = 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10000; border-radius: 0; border: none; margin: 0;';
-                    scrollContent.style.height = 'calc(100vh - 40px)';
-                    btn.style.background = '#ff5f57';
+                    container.classList.add('lp-mockup-fullscreen');
                     btn.title = 'Exit Fullscreen';
                 } else {
-                    container.style.cssText = 'background: #fff; border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); border: 1px solid #ddd; overflow: hidden; position: relative;';
-                    scrollContent.style.height = '350px';
-                    btn.style.background = '#28c940';
+                    container.classList.remove('lp-mockup-fullscreen');
                     btn.title = 'Toggle Fullscreen';
+                }
+            }
+
+            function openFlowModal() {
+                document.getElementById('flowModal').classList.add('active');
+            }
+
+            function closeFlowModal() {
+                document.getElementById('flowModal').classList.remove('active');
+            }
+
+            function logAnalyticsEvent(event) {
+                const console = document.getElementById('analyticsConsole');
+                const ping = document.createElement('div');
+                ping.className = 'ping';
+                ping.innerHTML = `<span>[${new Date().toLocaleTimeString([], { hour12: false })}]</span> ${event}`;
+                console.appendChild(ping);
+
+                // Keep only last 5 pings
+                if (console.children.length > 6) {
+                    console.removeChild(console.children[1]);
+                }
+            }
+
+            function handleLPScroll() {
+                const scroll = document.getElementById('lpScrollContent');
+                const scrollTop = scroll.scrollTop;
+                const heroVideo = document.getElementById('lpHeroVideo');
+
+                // Parallax Effect
+                if (heroVideo && scrollTop < 600) {
+                    heroVideo.style.transform = `translateY(${scrollTop * 0.2}px)`;
+                }
+
+                // Hero (at top)
+                if (scrollTop > 50 && !loggedEvents.has('view_item (Hero)')) {
+                    logAnalyticsEvent('view_item (Hero Explored)');
+                    loggedEvents.add('view_item (Hero)');
+                }
+                // Features Bento (around 300px)
+                if (scrollTop > 300 && !loggedEvents.has('view_item (Features)')) {
+                    logAnalyticsEvent('view_item (Value Bento Scrolled)');
+                    loggedEvents.add('view_item (Features)');
+                }
+                // Rewards Tiers (around 700px)
+                if (scrollTop > 700 && !loggedEvents.has('view_item (Rewards)')) {
+                    logAnalyticsEvent('view_item (Reward Tiers Scanned)');
+                    loggedEvents.add('view_item (Rewards)');
+                }
+                // Footer / CTA (around 1200px)
+                if (scrollTop > 1200 && !loggedEvents.has('view_item (Footer)')) {
+                    logAnalyticsEvent('view_item (Conversion Zone)');
+                    loggedEvents.add('view_item (Footer)');
                 }
             }
 
             // ESC key to exit fullscreen
             document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && lpIsFullscreen) {
-                    toggleLPFullscreen();
+                if (e.key === 'Escape') {
+                    if (lpIsFullscreen) toggleLPFullscreen();
+                    if (document.getElementById('flowModal').classList.contains('active')) closeFlowModal();
                 }
             });
         </script>
@@ -1234,9 +1645,11 @@
                 <div class="floating-card" style="border-left: 5px solid red;">
                     <h3>🚨 Escalation Guidelines</h3>
                     <ul style="padding-left: 1.2rem; font-size: 0.85rem;">
-                        <li><strong>Payment Failures</strong> (double charge, failed payment): Resort to support centre
+                        <li><strong>Payment Failures</strong> (double charge, failed payment): Resort to support
+                            centre
                             within 1 hour.</li>
-                        <li><strong>Misinformation / User Confusion:</strong> Reply with correction; contact marketing
+                        <li><strong>Misinformation / User Confusion:</strong> Reply with correction; contact
+                            marketing
                             if complaints are high.</li>
                         <li><strong>Security Concerns:</strong> Contact security team <em>immediately</em>.</li>
                     </ul>
@@ -1340,7 +1753,8 @@
                 </div>
                 <div class="floating-card">
                     <h3>AMEC Outcomes</h3>
-                    <p><strong>Behavior Change:</strong> Mom shifts grocery budget to Breadfast for rewards. <br>Gen Z
+                    <p><strong>Behavior Change:</strong> Mom shifts grocery budget to Breadfast for rewards. <br>Gen
+                        Z
                         shifts coffee spend for cashback.</p>
                 </div>
             </div>
@@ -1470,7 +1884,8 @@
                         <div style="position: relative; width: 180px; height: 180px; margin: 0 auto;">
                             <svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg);">
                                 <!-- Background circle -->
-                                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#eee" stroke-width="3"></circle>
+                                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#eee" stroke-width="3">
+                                </circle>
                                 <!-- Paid Media 55% -->
                                 <circle class="donut-segment" cx="18" cy="18" r="15.915" fill="none"
                                     stroke="var(--primary)" stroke-width="3" stroke-dasharray="0 100" data-target="55"
@@ -1721,18 +2136,21 @@
                 <div>
                     <div class="floating-card" style="border-left: 5px solid red;">
                         <h3>⚠️ Disclosure</h3>
-                        <p>Any <strong>paid influencer</strong> must include <strong>#ad</strong> in content or clearly
+                        <p>Any <strong>paid influencer</strong> must include <strong>#ad</strong> in content or
+                            clearly
                             announce sponsorship.</p>
                     </div>
                     <div class="floating-card" style="border-left: 5px solid var(--accent);">
                         <h3>🔒 Privacy & Consent</h3>
-                        <p>Before reposting UGC content, <strong>permission from users</strong> must be acquired.</p>
+                        <p>Before reposting UGC content, <strong>permission from users</strong> must be acquired.
+                        </p>
                     </div>
                 </div>
                 <div>
                     <div class="floating-card" style="border-left: 5px solid #3498db;">
                         <h3>✅ Inclusive & Accurate Content</h3>
-                        <p>All content must include <strong>inclusive language and visuals</strong>. Messages must be
+                        <p>All content must include <strong>inclusive language and visuals</strong>. Messages must
+                            be
                             accurate regarding cashback percentages and benefits.</p>
                     </div>
                     <div class="floating-card" style="border-left: 5px solid var(--primary);">
@@ -1750,14 +2168,168 @@
             <div class="citation">Sources: Shehata & Partners (n.d.); CBE (2023).</div>
         </div>
 
+        <!-- Extra Summary Slide (Hidden) -->
+        <div class="slide" data-id="summary-extra">
+            <span class="step-tag">Bonus</span>
+            <h2>Appendix: Ecosystem & Media</h2>
+            <div class="grid-2">
+                <div class="floating-card">
+                    <h3>Product Ecosystem</h3>
+                    <ul style="font-size: 0.9rem; padding-left: 1.2rem;">
+                        <li><strong>Student Card:</strong> Parental control for moms, independence for Gen Z.</li>
+                        <li><strong>Adulting Coach:</strong> Data-driven financial insights & coffee habits
+                            tracking.
+                        </li>
+                    </ul>
+                </div>
+                <div class="floating-card">
+                    <h3>Earned Media Strategy</h3>
+                    <ul style="font-size: 0.9rem; padding-left: 1.2rem;">
+                        <li><strong>The Tech Hook:</strong> Breadfast as the Fintech Super-App puzzle piece.</li>
+                        <li><strong>The Consumer Hook:</strong> Repositioning as an "Inflation Shield" saving
+                            familias
+                            EGP 500/month.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="floating-card" style="margin-top: 1rem; background: var(--secondary);">
+                <p style="margin: 0; font-size: 0.95rem;"><em>"Breadfast Launches 'Family Wallet' to Combat
+                        Inflation:
+                        One App, Two Lifestyles."</em></p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="imageModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-close" onclick="closeModal()">×</div>
+            <div class="modal-arrow left" onclick="prevPost()">←</div>
+            <div class="modal-arrow right" onclick="nextPost()">→</div>
+            <img id="modalImg" class="modal-image" src="" alt="Post Preview">
+            <div class="modal-info">
+                <h4 id="modalDay">Day 1</h4>
+                <p id="modalDetails">Channel: Facebook | Hook: Text</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conversion Flow Modal -->
+    <div id="flowModal" class="modal-overlay">
+        <div class="modal-content flow-modal">
+            <div class="modal-close" onclick="closeFlowModal()">×</div>
+            <div style="padding: 20px;">
+                <h2 style="color: var(--primary); margin-top: 0; text-align: center;">Conversion Path</h2>
+                <div class="flow-step">
+                    <div class="flow-num">1</div>
+                    <div>
+                        <strong>Hero Section</strong>
+                        <p style="margin: 0; font-size: 0.85rem; color: #666;">Hook: "Fuel Your Home & Your Day"</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-num">2</div>
+                    <div>
+                        <strong>Social Proof</strong>
+                        <p style="margin: 0; font-size: 0.85rem; color: #666;">Validation from key influencers</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-num">3</div>
+                    <div>
+                        <strong>Value Routine</strong>
+                        <p style="margin: 0; font-size: 0.85rem; color: #666;">Mom Loads → Teen Spends → Both Earn
+                        </p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-num">4</div>
+                    <div>
+                        <strong>Conversion CTA</strong>
+                        <p style="margin: 0; font-size: 0.85rem; color: #666;">App Store download / Lead gen</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- UI Overlay -->
-    <div class="progress">Slide <span id="current">0</span> / 16</div>
+    <div class="progress">Slide <span id="current">0</span> / <span id="total">0</span></div>
     <div class="controls">
         <button id="prevBtn">←</button>
         <button id="nextBtn">→</button>
     </div>
+
+    <script>
+        const calendarData = [
+            { day: "Day 1", channel: "Facebook / TikTok", hook: "Split screen 'Cash vs Breadfast Pay'", asset: "20s Video + captions", image: "assets/calendar/day1.png" },
+            { day: "Day 2", channel: "Instagram", hook: "'Girl Math = Coffee is free'", asset: "30s Reel", image: "assets/calendar/day2.png" },
+            { day: "Day 3", channel: "Facebook", hook: "Financial parenting guide", asset: "60s Video", image: "assets/calendar/day3.png" },
+            { day: "Day 5", channel: "Email", hook: "'Last Chance' 20% Off", asset: "Countdown visual + CTA", image: "assets/calendar/day5.png" },
+            { day: "Day 8", channel: "IG Live", hook: "Q&A with Breadfast Expert", asset: "Promo visual", image: "assets/calendar/day8.png" },
+            { day: "Day 12", channel: "Instagram Stories", hook: "'Treat Yourself Tuesday'", asset: "Graphics + CTA", image: "assets/calendar/day12.png" },
+            { day: "Day 14", channel: "Instagram / TikTok", hook: "'Shared Moments'", asset: "Reposted UGC & testimonials", image: "assets/calendar/day14.png" }
+        ];
+
+        let currentModalIndex = 0;
+
+        function updateModalContent(index) {
+            const data = calendarData[index];
+            document.getElementById('modalImg').src = data.image;
+            document.getElementById('modalDay').textContent = data.day;
+            document.getElementById('modalDetails').textContent = `Channel: ${data.channel} | Hook: ${data.hook} | Asset: ${data.asset}`;
+        }
+
+        function openModal(index) {
+            currentModalIndex = parseInt(index);
+            updateModalContent(currentModalIndex);
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+
+        function nextPost() {
+            currentModalIndex = (currentModalIndex + 1) % calendarData.length;
+            updateModalContent(currentModalIndex);
+        }
+
+        function prevPost() {
+            currentModalIndex = (currentModalIndex - 1 + calendarData.length) % calendarData.length;
+            updateModalContent(currentModalIndex);
+        }
+
+        // Close modal on overlay click
+        document.getElementById('imageModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('imageModal')) closeModal();
+        });
+
+        // Key navigation
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('imageModal').classList.contains('active')) return;
+            if (e.key === 'ArrowRight') nextPost();
+            if (e.key === 'ArrowLeft') prevPost();
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Add event listeners to calendar rows
+        document.addEventListener('DOMContentLoaded', () => {
+            const rows = document.querySelectorAll('.calendar-row');
+            rows.forEach((row, index) => {
+                row.addEventListener('click', () => {
+                    openModal(index);
+                });
+            });
+        });
+    </script>
 
     <!-- Three.js Background -->
     <script>
@@ -2273,6 +2845,20 @@
                     });
                     break;
                 }
+                case 'summary-extra': {
+                    // Summary Extra: A combination of elements
+                    const card = createCardMesh(3.2, 2.0, 0.14, 'primary');
+                    const gear = new THREE.Mesh(new THREE.TorusKnotGeometry(0.5, 0.15, 100, 16), makeMaterial('accent'));
+                    gear.position.set(1.0, 0.5, 0.5);
+                    group.add(card, gear);
+                    slideUpdaters.set(slideId, (t, pointer) => {
+                        const speed = prefersReducedMotion ? 0 : 1;
+                        gear.rotation.y = t * 0.8 * speed;
+                        card.rotation.y = 0.2 * Math.sin(t * 0.5) * speed + pointer.x * 0.1;
+                        group.rotation.x = pointer.y * 0.05;
+                    });
+                    break;
+                }
                 default: {
                     // Fallback (shouldn't happen with current slides)
                     const blob = new THREE.Mesh(new THREE.IcosahedronGeometry(1.4, 1), makeMaterial('primary'));
@@ -2370,6 +2956,7 @@
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const currentSpan = document.getElementById('current');
+        const totalSpan = document.getElementById('total');
         let currentIndex = 0;
 
         function updateSlides() {
@@ -2377,7 +2964,8 @@
                 slide.classList.remove('active');
                 if (index === currentIndex) slide.classList.add('active');
             });
-            currentSpan.textContent = currentIndex; // 0 is Intro
+            currentSpan.textContent = currentIndex;
+            totalSpan.textContent = slides.length - 2; // Subtracting the Intro and the hidden Summary
 
             const slideEl = slides[currentIndex];
             if (slideEl && slideEl.dataset && slideEl.dataset.id != null) {
@@ -2392,7 +2980,7 @@
         }, 50);
 
         nextBtn.addEventListener('click', () => {
-            if (currentIndex < slides.length - 1) {
+            if (currentIndex < slides.length - 2) { // Skip the hidden summary slide
                 currentIndex++;
                 updateSlides();
             }
