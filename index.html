@@ -1150,6 +1150,13 @@
                             <td>20s Video + captions</td>
                             <td>Content Creator #1</td>
                         </tr>
+                        <tr class="calendar-row" data-video="assets/calendar/A_vertical.mp4">
+                            <td><strong>Day 1b</strong></td>
+                            <td>TikTok / IG Reels</td>
+                            <td>Financial Freedom</td>
+                            <td>Vertical Video Asset</td>
+                            <td>Content Creator #2</td>
+                        </tr>
                         <tr class="calendar-row" data-image="assets/calendar/day2.png">
                             <td><strong>Day 2</strong></td>
                             <td>Instagram</td>
@@ -1198,35 +1205,11 @@
             <div class="citation">Sources: Treasury.id (2024); AUC Caravan (2025).</div>
         </div>
 
-        <!-- Step 6B: Visuals -->
+        <!-- Step 6B: Visuals (Hidden)
         <div class="slide" data-id="7">
-            <span class="step-tag">Step 6B</span>
-            <h2>Visual Strategy</h2>
-            <div class="grid-2">
-                <div class="floating-card">
-                    <h3>The Split Screen</h3>
-                    <p style="font-size: 0.9rem; color: #555;">Visualizing the balance. Left: Responsible Pantry
-                        Loading. Right: Indulgent Coffee Moment.</p>
-                </div>
-                <div class="floating-card">
-                    <h3>Gen Z Aesthetic</h3>
-                    <p style="font-size: 0.9rem; color: #555;">High contrast, flash photography, "Receipt" graphics
-                        showing savings. "Soft Saving" vibes.</p>
-                </div>
-                <div class="floating-card">
-                    <h3>Mom Aesthetic</h3>
-                    <p style="font-size: 0.9rem; color: #555;">Warm, organized, peaceful. The app is a tool for
-                        <em>control</em>.
-                    </p>
-                </div>
-                <div class="floating-card">
-                    <h3>The Red Thread</h3>
-                    <p style="font-size: 0.9rem; color: #555;">The <strong>Purple Card</strong> connects both worlds.
-                        It's the key to both the pantry and the café.</p>
-                </div>
-            </div>
-            <div class="citation">Sources: SceneNow (2025).</div>
+            ...
         </div>
+        -->
 
         <!-- Step 7 -->
         <div class="slide" data-id="8">
@@ -2222,6 +2205,8 @@
             <div class="modal-arrow left" onclick="prevPost()">←</div>
             <div class="modal-arrow right" onclick="nextPost()">→</div>
             <img id="modalImg" class="modal-image" src="" alt="Post Preview">
+            <video id="modalVideo" class="modal-image" autoplay muted loop playsinline
+                style="display: none; height: 80vh; width: auto; border-radius: 16px; object-fit: cover;"></video>
             <div class="modal-info">
                 <h4 id="modalDay">Day 1</h4>
                 <p id="modalDetails">Channel: Facebook | Hook: Text</p>
@@ -2278,6 +2263,7 @@
     <script>
         const calendarData = [
             { day: "Day 1", channel: "Facebook / TikTok", hook: "Split screen 'Cash vs Breadfast Pay'", asset: "20s Video + captions", image: "assets/calendar/day1.png" },
+            { day: "Day 1b", channel: "TikTok / IG Reels", hook: "Financial Freedom", asset: "Vertical Video Asset", image: "", video: "assets/calendar/A_vertical.mp4" },
             { day: "Day 2", channel: "Instagram", hook: "'Girl Math = Coffee is free'", asset: "30s Reel", image: "assets/calendar/day2.png" },
             { day: "Day 3", channel: "Facebook", hook: "Financial parenting guide", asset: "60s Video", image: "assets/calendar/day3.png" },
             { day: "Day 5", channel: "Email", hook: "'Last Chance' 20% Off", asset: "Countdown visual + CTA", image: "assets/calendar/day5.png" },
@@ -2290,7 +2276,23 @@
 
         function updateModalContent(index) {
             const data = calendarData[index];
-            document.getElementById('modalImg').src = data.image;
+            const img = document.getElementById('modalImg');
+            const video = document.getElementById('modalVideo');
+
+            // Default: Hide video, show image
+            video.pause();
+            video.style.display = 'none';
+            img.style.display = 'block';
+
+            if (data.video) {
+                img.style.display = 'none';
+                video.style.display = 'block';
+                video.src = data.video;
+                video.load();
+            } else {
+                img.src = data.image;
+            }
+
             document.getElementById('modalDay').textContent = data.day;
             document.getElementById('modalDetails').textContent = `Channel: ${data.channel} | Hook: ${data.hook} | Asset: ${data.asset}`;
         }
@@ -2305,6 +2307,8 @@
 
         function closeModal() {
             const modal = document.getElementById('imageModal');
+            const video = document.getElementById('modalVideo');
+            video.pause();
             modal.classList.remove('active');
             setTimeout(() => {
                 modal.style.display = 'none';
